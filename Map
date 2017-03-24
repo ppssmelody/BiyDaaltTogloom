@@ -39,5 +39,6 @@ public class Map {
 		}
 		System.out.print("Score:"+score+"                         ");
 		System.out.print("Live:"+live);
+		System.out.print("C [18][11]");
 	}
 }
