@@ -1,0 +1,6 @@
+C:\Users\Jamts\Desktop\Buteelt\Pacman\Pacman\bin\Release\Pacman.exe.config
+C:\Users\Jamts\Desktop\Buteelt\Pacman\Pacman\bin\Release\Pacman.exe
+C:\Users\Jamts\Desktop\Buteelt\Pacman\Pacman\bin\Release\Pacman.pdb
+C:\Users\Jamts\Desktop\Buteelt\Pacman\Pacman\obj\Release\Pacman.exe
+C:\Users\Jamts\Desktop\Buteelt\Pacman\Pacman\obj\Release\Pacman.pdb
+C:\Users\Jamts\Desktop\Buteelt\Pacman\Pacman\obj\Release\Pacman.csprojResolveAssemblyReference.cache
