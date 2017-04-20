@@ -8,14 +8,14 @@ namespace Pacman
     class Program 
     {
         //static int level = 0;
-        static int box = 1;
-        static Random random = new Random();
-        static bool gamePaused = false;
-        static bool pausedTextIsShown = false;
-        static bool loop = true;
-        static PacMan pacman = new PacMan();
-        static int speed = 200;
-        static Ghost[] ghostList1 = new Ghost[4]
+        static int box = 1;// uy dawj suns hurd zergiig nemehed heregtei bolsn tooluur maygiin zuil
+        static Random random = new Random();  //sunsnii hiih hodolgoon random baina
+        static bool gamePaused = false;  // togloom pause hiigdsen esehg zaah huwisagch
+        static bool pausedTextIsShown = false; //togloom pause hiigdwel garj ireh bichig text n haragdaj baigaa eseh 
+        static bool loop = true; // main funkts dotorh while gol dawtaltiig urgejluuleh zogsooh gol huwisagch
+        static PacMan pacman = new PacMan();  
+        static int speed = 200; // togloomnii hurdnii anhnii utga
+        static Ghost[] ghostList1 = new Ghost[4] // sunsnii anhnii utga anh 4 suns  ogogdono
         {
             new Ghost(ConsoleColor.Red,15,8),
             new Ghost(ConsoleColor.Cyan,16,12),
@@ -25,7 +25,7 @@ namespace Pacman
         };
         // Map
         static Map map = new Map();
-        static string[,] border = map.GetMap;
+        static string[,] border = map.GetMap;  //border huwisagchid map aa hadgalj map deeree oorchlolt oruulahad ashiglasan 
         // Console Settings
         const int GameWidth = 70;
         const int GameHeight = 29;
@@ -34,62 +34,59 @@ namespace Pacman
         {
             Console.CursorVisible = false;
             Console.Title = "Pacman";
-            Console.WindowWidth = GameWidth;
+            Console.WindowWidth = GameWidth; // console-iin orgond ooriinhoo deer zarlasan gamewidth const utgatai huwisagchiin  utgaar hemjeeg n zaaj ogson
             Console.BufferWidth = GameWidth;
-            Console.WindowHeight = GameHeight;
+            Console.WindowHeight = GameHeight;// ondor-iin hemjeeg olgoson
             Console.BufferHeight = GameHeight;
-            Console.OutputEncoding = System.Text.Encoding.Unicode;
 
-            ShowWelcomeMenu();
+            ShowWelcomeMenu();// ug funkts n togloom ehlehed garch ireh x darj togloom ehluuleh eswel escape darj garah gsn txt-g haruulna
 
-            RedrawMap();
-            LoadGUI();
+            RedrawMap(); //map-g achaallaj delgetsend zurah funkts
+            LoadGUI();// interface zereg orchniig achaallaj unshih funkts
 
-            LoadPlayer();
+            LoadPlayer();// pacman buyu toglochiig achaallaj unshih funkts
 
-            Loadghosts();
+            Loadghosts();// ghost-iig achaallan unshih funkts
 
-            while (loop)
+            while (loop)// gol dawtalt
             {
 
-                ReadUserKey();
-
-                // Check if paused
-                if (gamePaused)
+                ReadUserKey();// toglogch keyboardnii ymr towch darj baigaag unshih funkts
+                if (gamePaused) // togloom pause hiigdsen eseh
                 {
-                    BlinkPausedText();
+                    BlinkPausedText();//pause hiigdsen bol paused gej garah text-g aniwchuulah funkts
                     continue;
                 }
                 
-                ghostAi();
+                ghostAi();// sunsnii hodolgoon hiih zereg sunstei holbootoi buhii l zuilg hj bui funkts
 
-                PlayerMovement();
+                PlayerMovement();// toglogchiin hodolgoon
 
-                CheckIfNoLives();
+                CheckIfNoLives();// ami baiga esehg shalgaad baixgvi bol dawtalt zogsooj togloom duusgana
 
-                CheckScore();
+                CheckScore();// onoog shalgah funkts
 
-                Thread.Sleep(speed);
+                Thread.Sleep(speed);// hurdiig taaruulj ogson thread
             }
         }
 
         static void LoadGUI()
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.SetCursorPosition(40, 2);
-            Console.Write("Level: {0}", pacman.GetLevel());
+            Console.ForegroundColor = ConsoleColor.Green;// level gej talbariin baruun deed buland bichigdsen level geh txt-n ongo
+            Console.SetCursorPosition(40, 2);// tuunii bairlal
+            Console.Write("Level: {0}", pacman.GetLevel());// pacman-s utga awch level oorchlogdono
 
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.SetCursorPosition(40, 4);
+            Console.ForegroundColor = ConsoleColor.Yellow;// score txt- ni shar ongoor durslegden
+            Console.SetCursorPosition(40, 4);// bairshil n 
             Console.Write("Score: {0}", pacman.GetScore());
 
             Console.ForegroundColor = ConsoleColor.Red;
             Console.SetCursorPosition(40, 6);
             Console.Write("Lives: {0}", pacman.Lives());
 
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.White;// baruun dood buland baih togloom pause hiih eswel garah esehg zaasan towchiig haruulsan txtuud
             Console.SetCursorPosition(40, GameHeight - 8);
-            Console.Write("{0}", new string('-', 22));
+            Console.Write("{0}", new string('-', 22)); // 22 gdg ni "-" ene temdegt 22 udaa durslegdene gesen ug
             Console.SetCursorPosition(40, GameHeight - 7);
             Console.Write("|  PRESS P TO PAUSE  |");
             Console.SetCursorPosition(40, GameHeight - 6);
@@ -98,7 +95,7 @@ namespace Pacman
             Console.Write("{0}", new string('-', 22));
         }
 
-        static void LoadPlayer()
+        static void LoadPlayer()// toglogchiin bairshil ongo durs zergiig unshij dursleh funkts
         {
             Console.SetCursorPosition(pacman.GetPosX(), pacman.GetPosY());
             Console.ForegroundColor = pacman.GetColor();
@@ -107,7 +104,7 @@ namespace Pacman
 
         static void Loadghosts()
         {
-            foreach (var ghost in ghostList1)
+            foreach (var ghost in ghostList1)// gholstlist1 dotorh ghost huwisagch burt doorh uildluudiig hiine gsn operator
             {
                 Console.ForegroundColor = ghost.GetColor();
                 Console.SetCursorPosition(ghost.GetPosX(), ghost.GetPosY());
@@ -115,7 +112,7 @@ namespace Pacman
             }
 
         }
-        static void Moveghost()
+        static void Moveghost()// sunsee hodolgoh funkts
         {
             foreach (var ghost in ghostList1)
             {
@@ -124,7 +121,7 @@ namespace Pacman
                 Console.SetCursorPosition(ghost.GetPosX(), ghost.GetPosY());
                 Console.Write(ghost.GetGhost());
                 Console.ForegroundColor = ConsoleColor.White;
-                if (ghost.GetPosX() != ghost.omnohPosX || ghost.GetPosY() != ghost.omnohPosY)
+                if (ghost.GetPosX() != ghost.omnohPosX || ghost.GetPosY() != ghost.omnohPosY)// herwee suns bairnaasaa hodolson bol
                 {
                     if (border[ghost.omnohPosY, ghost.omnohPosX] == " ")
                     {
@@ -153,7 +150,7 @@ namespace Pacman
                 switch (Console.ReadKey(true).Key)
                 {
                     case ConsoleKey.Escape:
-                        loop = false; // Прекъсва while цикъла
+                        loop = false; // 
                         GameOver();
                         break;
                     case ConsoleKey.P:
@@ -289,6 +286,13 @@ namespace Pacman
                     break;
             }
         }
+       /* static void resetGhostPos()
+        {
+            foreach(var ghost,in ghostList1)
+            {
+                Console.SetCursorPosition(ghost.);
+            }
+        }*/
         static void MovePlayer(string direction)
         {
             switch (direction)
@@ -428,12 +432,12 @@ namespace Pacman
                     RedrawMap();
                     MovePlayer("reset");
                     pacman.addLevel();
-                    pacman.EarnPoint();
-                    if (pacman.GetScore()==10)
+                    if (pacman.GetLevel()==5)
                     {
                         loop = false;
                         WinGame();
                     }
+                    pacman.EarnPoint();
                     speed -= 20;
                 }
             //}
@@ -502,7 +506,7 @@ namespace Pacman
         static void addGhost()
         {
               Array.Resize(ref ghostList1, ghostList1.Length+1);
-              ghostList1[ghostList1.Length-1] = new Ghost(ConsoleColor.Blue, 15, 9);        
+              ghostList1[ghostList1.Length-1] = new Ghost(ConsoleColor.Blue, 15, 11);        
         }
         static void GameOver()
         {

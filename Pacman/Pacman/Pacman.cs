@@ -9,97 +9,88 @@ using System.Media;
 namespace Pacman
 {
     class PacMan
-    {
+    {   private Position pacmanPos;
+        private int score;//Onoo 
+        private int lives;// Ami
+        private int level;// Uy 
 
-        private Position pacManPos;
-        private int score;
-        private int lives;
-        private int level;
-
-        private string durs = "C";
-        private ConsoleColor color = ConsoleColor.Magenta;
-        public string Direction = "right";
-        public string NextDirection = "right";
+        private string durs = ((char)9786).ToString(); //Pacmanii console deer durslegdeh helber
+        private ConsoleColor color = ConsoleColor.Yellow;//Pacmanii console deer haragdah ongo
+        public string Direction = "right";//Pacmanii odoo hodolj bui zug
+        public string NextDirection = "right";//Pacmanii daraagiin hodloh zug
         public PacMan()
         {
-            this.pacManPos = new Position(17, 20);
-            this.score = 0;
-            this.lives = 3;
-            this.level = 1;
+            this.pacmanPos = new Position(17, 20);
+            this.score = 0;// Anhnii onoo
+            this.lives = 3;// Anhnii ami
+            this.level = 1;// Anhnii level (uy)
         }
 
-        public int GetScore()
+        public int GetScore()//Onoo butsaah get funkts
         {
             return this.score;
         }
 
-        public int Lives()
+        public int Lives()//Ami butsaah get funkts
         {
             return this.lives;
         }
 
-        public int GetLevel()
+        public int GetLevel()//Uy butsaah get funkts
         {
             return this.level;
         }
-        public int addLevel()
+        public int addLevel()//Omnoh uyee duusgaad uy nemegdeh funkts
         { return this.level++; }
         public void ResetPacMan()
         {
-            this.pacManPos.X = 17;
-            this.pacManPos.Y = 20;
+            this.pacmanPos.X = 17;
+            this.pacmanPos.Y = 20;
             this.Direction = "right";
             this.NextDirection = "right";
         }
 
-        public void LoseLife()
+        public void LoseLife()//Sunsend iduulehed ami hasagdah funkts
         {
             this.lives--;
-            Thread.Sleep(800);
+            Thread.Sleep(800); // Iduulsnii daraa anhnii bairlaldaa dahin garah agshinii hugatsaa
         }
 
-        public void EarnPoint()
+        public void EarnPoint() // Tseg ideh funkts onoog 1-r nemegduulne
         {
             this.score++;
         }
 
-        public void EarnStar()
+        public void EarnStar()// Od ideh funkts onoog 100-r nemegduulne
         {
             this.score += 100;
         }
-
-        public void LevelUp()
-        {
-            this.level++;
-            this.score = 0;
-        }
-
-        public string GetPac()
+        public string GetPac()//Pacmanii durslegdeh dursiig butsaah get funkts
         {
             return this.durs;
         }
 
-        public int GetPosX()
+        public int GetPosX()// X deerh coordinatiig butsaah get funkts
         {
-            return this.pacManPos.X;
+            return this.pacmanPos.X;
         }
 
-        public int GetPosY()
+        public int GetPosY()// Y deerh coordinatiig butsaah get funkts
         {
-            return this.pacManPos.Y;
+            return this.pacmanPos.Y;
         }
 
-        public ConsoleColor GetColor()
+        public ConsoleColor GetColor()// Pacmanii ongiig butsaah get funkts
         {
             return this.color;
         }
 
-        public MapElements CheckCell(string[,] border, string direction, Ghost[] ghostList)
+        public MapElements CheckCell(string[,] border, string direction, Ghost[] ghostList)// 1 nudend hana od tseg suns zereg baigaa esehiig shalgah funkts
         {
-            switch (direction)
+            switch (direction)// Pacmanii tuhain ywj bui chiglel
             {
-                case "up":
-                    switch (border[this.pacManPos.Y - 1, this.pacManPos.X])
+                case "up":// deesh ywj baih uyd
+                    switch (border[this.pacmanPos.Y - 1, this.pacmanPos.X])// ug chigleld yu baigaag
                     {
                         case "#":
                             return MapElements.Wall;
@@ -108,7 +99,7 @@ namespace Pacman
                         case "*":
                             return MapElements.Star;
                         default:
-                            if (checkIfGhostAppears(ghostList, this.pacManPos.Y - 1, this.pacManPos.X))
+                            if (checkIfGhostAppears(ghostList, this.pacmanPos.Y - 1, this.pacmanPos.X))
                             {
                                 return MapElements.Ghost;
                             }
@@ -118,7 +109,7 @@ namespace Pacman
                             }
                     }
                 case "right":
-                    switch (border[this.pacManPos.Y, this.pacManPos.X + 1])
+                    switch (border[this.pacmanPos.Y, this.pacmanPos.X + 1])
                     {
                         case "#":
                             return MapElements.Wall;
@@ -127,7 +118,7 @@ namespace Pacman
                         case "*":
                             return MapElements.Star;
                         default:
-                            if (checkIfGhostAppears(ghostList, this.pacManPos.Y, this.pacManPos.X + 1))
+                            if (checkIfGhostAppears(ghostList, this.pacmanPos.Y, this.pacmanPos.X + 1))
                             {
                                 return MapElements.Ghost;
                             }
@@ -137,7 +128,7 @@ namespace Pacman
                             }
                     }
                 case "down":
-                    switch (border[this.pacManPos.Y + 1, this.pacManPos.X])
+                    switch (border[this.pacmanPos.Y + 1, this.pacmanPos.X])
                     {
                         case "#":
                             return MapElements.Wall;
@@ -146,7 +137,7 @@ namespace Pacman
                         case "*":
                             return MapElements.Star;
                         default:
-                            if (checkIfGhostAppears(ghostList, this.pacManPos.Y + 1, this.pacManPos.X))
+                            if (checkIfGhostAppears(ghostList, this.pacmanPos.Y + 1, this.pacmanPos.X))
                             {
                                 return MapElements.Ghost;
                             }
@@ -156,7 +147,7 @@ namespace Pacman
                             }
                     }
                 case "left":
-                    switch (border[this.pacManPos.Y, this.pacManPos.X - 1])
+                    switch (border[this.pacmanPos.Y, this.pacmanPos.X - 1])
                     {
                         case "#":
                             return MapElements.Wall;
@@ -165,7 +156,7 @@ namespace Pacman
                         case "*":
                             return MapElements.Star;
                         default:
-                            if (checkIfGhostAppears(ghostList, this.pacManPos.Y, this.pacManPos.X - 1))
+                            if (checkIfGhostAppears(ghostList, this.pacmanPos.Y, this.pacmanPos.X - 1))
                             {
                                 return MapElements.Ghost;
                             }
@@ -175,7 +166,7 @@ namespace Pacman
                             }
                     }
                 default:
-                    if (checkIfGhostAppears(ghostList, pacManPos.Y, pacManPos.X))
+                    if (checkIfGhostAppears(ghostList, pacmanPos.Y, pacmanPos.X))
                     {
                         return MapElements.Ghost;
                     }
@@ -187,19 +178,19 @@ namespace Pacman
         }
         public void MoveUp()
         {
-            this.pacManPos.Y -= 1;
+            this.pacmanPos.Y -= 1;
         }
         public void MoveDown()
         {
-            this.pacManPos.Y += 1;
+            this.pacmanPos.Y += 1;
         }
         public void MoveLeft()
         {
-            this.pacManPos.X -= 1;
+            this.pacmanPos.X -= 1;
         }
         public void MoveRight()
         {
-            this.pacManPos.X += 1;
+            this.pacmanPos.X += 1;
         }
 
         public bool checkIfGhostAppears(Ghost[] ghostList, int pacManPosY, int pacManPosX)

@@ -13,7 +13,9 @@ namespace Pacman
         public int omnohPosX;
         public int omnohPosY;
         public int count = 4;
-        private string ghost = "M";
+        public int addedGhostPosX;
+        public int addedGhostPosY;
+        private string ghost = ((char)9787).ToString();
         private ConsoleColor color;
         public string Direction = "up";
 
