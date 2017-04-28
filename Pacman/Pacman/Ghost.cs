@@ -12,30 +12,17 @@ namespace Pacman
         private Position ghostPos;
         public int omnohPosX;
         public int omnohPosY;
-        public int count = 4;
-        public int addedGhostPosX;
-        public int addedGhostPosY;
         private string ghost = ((char)9787).ToString();
         private ConsoleColor color;
-        public string Direction = "up";
-
-        public static string[] bolomjitZug =
+        private const string WALL = "#"; 
+        public static string[] zug =
         {
             "up",
             "down",
             "left",
             "right"
         };
-
         public static Random random = new Random();
-
-        public Ghost()
-        {
-            this.color = ConsoleColor.Blue;
-            this.ghostPos = new Position(13, 13);
-            this.omnohPosX = 9;
-            this.omnohPosY = 9;
-        }
         public Ghost(ConsoleColor color, int x, int y)
         {
             this.color = color;
@@ -43,7 +30,7 @@ namespace Pacman
             this.omnohPosX = x;
             this.omnohPosY = y;
         }
-        public bool checkLeft(Ghost[] ghostList, int x, int y, string[,] border)
+        private bool checkLeft(Ghost[] ghostList, int x, int y, string[,] border)
         {
             bool isEmpty = true;
             foreach (var ghost in ghostList)
@@ -55,14 +42,14 @@ namespace Pacman
                 }
             }
 
-            if (border[y, x - 1] == "#")
+            if (border[y, x - 1] == WALL)
             {
                 isEmpty = false;
             }
 
             return isEmpty;
         }
-        public bool CheckRight(Ghost[] ghostList, int x, int y, string[,] border)
+        private bool CheckRight(Ghost[] ghostList, int x, int y, string[,] border)
         {
             bool isEmpty = true;
             foreach (var ghost in ghostList)
@@ -74,7 +61,7 @@ namespace Pacman
                 }
             }
 
-            if (border[y, x + 1] == "#")
+            if (border[y, x + 1] == WALL)
             {
                 isEmpty = false;
             }
@@ -82,7 +69,7 @@ namespace Pacman
 
             return isEmpty;
         }
-        public bool CheckUp(Ghost[] ghostList, int x, int y, string[,] border)
+        private bool CheckUp(Ghost[] ghostList, int x, int y, string[,] border)
         {
             bool isEmpty = true;
             foreach (var ghost in ghostList)
@@ -94,14 +81,14 @@ namespace Pacman
                 }
             }
 
-            if (border[y - 1, x] == "#")
+            if (border[y - 1, x] == WALL)
             {
                 isEmpty = false;
             }
 
             return isEmpty;
         }
-        public bool CheckDown(Ghost[] ghostList, int x, int y, string[,] border)
+        private bool CheckDown(Ghost[] ghostList, int x, int y, string[,] border)
         {
             bool isEmpty = true;
             foreach (var ghost in ghostList)
@@ -112,7 +99,7 @@ namespace Pacman
                 }
             }
 
-            if (border[y + 1, x] == "#")
+            if (border[y + 1, x] == WALL)
             {
                 isEmpty = false;
             }
@@ -136,54 +123,29 @@ namespace Pacman
         {
             return this.color;
         }
-        public void addGhost()
-        {
-            Ghost ghost = new Ghost(ConsoleColor.Blue, 13, 13);
-            Console.ForegroundColor = ghost.GetColor();
-            Console.SetCursorPosition(13, 13);
-            Console.Write('M');
-            count++;
-        }
-        public void EraseGhost()
-        {
-            Console.SetCursorPosition(omnohPosX, omnohPosY);
-            Console.Write(' ');
-        }
         public void MoveRight()
         {
-            if (ghostPos.X + 1 < 34)
-            {
                 omnohPosX = ghostPos.X;
                 omnohPosY = ghostPos.Y;
                 ghostPos.X++;
-            }
         }
         public void MoveLeft()
         {
-            if (ghostPos.X - 1 > 0)
-            {
                 omnohPosX = ghostPos.X;
                 omnohPosY = ghostPos.Y;
                 ghostPos.X--;
-            }
         }
         public void MoveDown()
         {
-            if (ghostPos.Y + 1 < 28)
-            {
                 omnohPosX = ghostPos.X;
                 omnohPosY = ghostPos.Y;
                 ghostPos.Y++;
-            }
         }
         public void MoveUp()
         {
-            if (ghostPos.Y - 1 > 0)
-            {
                 omnohPosX = ghostPos.X;
                 omnohPosY = ghostPos.Y;
                 ghostPos.Y--;
-            }
         }
 
     }

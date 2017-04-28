@@ -27,23 +27,22 @@ namespace Pacman
         static Map map = new Map();
         static string[,] border = map.GetMap;  //border huwisagchid map aa hadgalj map deeree oorchlolt oruulahad ashiglasan 
         // Console Settings
-        const int GameWidth = 70;
-        const int GameHeight = 29;
+        const int GAMEWIDTH = 70;
+        const int GAMEHEIGHT = 29;
 
         public static void Main(string[] args)
         {
             Console.CursorVisible = false;
             Console.Title = "Pacman";
-            Console.WindowWidth = GameWidth; // console-iin orgond ooriinhoo deer zarlasan gamewidth const utgatai huwisagchiin  utgaar hemjeeg n zaaj ogson
-            Console.BufferWidth = GameWidth;
-            Console.WindowHeight = GameHeight;// ondor-iin hemjeeg olgoson
-            Console.BufferHeight = GameHeight;
+            Console.WindowWidth = GAMEWIDTH; // console-iin orgond ooriinhoo deer zarlasan gamewidth const utgatai huwisagchiin  utgaar hemjeeg n zaaj ogson
+            Console.BufferWidth = GAMEWIDTH;
+            Console.WindowHeight = GAMEHEIGHT;// ondor-iin hemjeeg olgoson
+            Console.BufferHeight = GAMEHEIGHT;
 
             ShowWelcomeMenu();// ug funkts n togloom ehlehed garch ireh x darj togloom ehluuleh eswel escape darj garah gsn txt-g haruulna
 
             RedrawMap(); //map-g achaallaj delgetsend zurah funkts
-            LoadGUI();// interface zereg orchniig achaallaj unshih funkts
-
+ 
             LoadPlayer();// pacman buyu toglochiig achaallaj unshih funkts
 
             Loadghosts();// ghost-iig achaallan unshih funkts
@@ -61,7 +60,7 @@ namespace Pacman
                 ghostAi();// sunsnii hodolgoon hiih zereg sunstei holbootoi buhii l zuilg hj bui funkts
 
                 PlayerMovement();// toglogchiin hodolgoon
-
+                LoadGUI();
                 CheckIfNoLives();// ami baiga esehg shalgaad baixgvi bol dawtalt zogsooj togloom duusgana
 
                 CheckScore();// onoog shalgah funkts
@@ -85,13 +84,13 @@ namespace Pacman
             Console.Write("Lives: {0}", pacman.Lives());
 
             Console.ForegroundColor = ConsoleColor.White;// baruun dood buland baih togloom pause hiih eswel garah esehg zaasan towchiig haruulsan txtuud
-            Console.SetCursorPosition(40, GameHeight - 8);
+            Console.SetCursorPosition(40, GAMEHEIGHT - 8);
             Console.Write("{0}", new string('-', 22)); // 22 gdg ni "-" ene temdegt 22 udaa durslegdene gesen ug
-            Console.SetCursorPosition(40, GameHeight - 7);
+            Console.SetCursorPosition(40, GAMEHEIGHT - 7);
             Console.Write("|  PRESS P TO PAUSE  |");
-            Console.SetCursorPosition(40, GameHeight - 6);
+            Console.SetCursorPosition(40, GAMEHEIGHT - 6);
             Console.Write("|  PRESS ESC TO EXIT |");
-            Console.SetCursorPosition(40, GameHeight - 5);
+            Console.SetCursorPosition(40, GAMEHEIGHT - 5);
             Console.Write("{0}", new string('-', 22));
         }
 
@@ -112,6 +111,10 @@ namespace Pacman
             }
 
         }
+        static void ghostOmnohPosition(Ghost ghost)
+        {
+            Console.SetCursorPosition(ghost.omnohPosX, ghost.omnohPosY);
+        }
         static void Moveghost()// sunsee hodolgoh funkts
         {
             foreach (var ghost in ghostList1)
@@ -120,22 +123,22 @@ namespace Pacman
                 Console.ForegroundColor = ghost.GetColor();
                 Console.SetCursorPosition(ghost.GetPosX(), ghost.GetPosY());
                 Console.Write(ghost.GetGhost());
-                Console.ForegroundColor = ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.White;//herwee tsagaan ongoor ogoogui bol sunsnii ywsan gazart ymr neg element baih yum bol ug sunsnii ongoor elementuud oorchlogdono
                 if (ghost.GetPosX() != ghost.omnohPosX || ghost.GetPosY() != ghost.omnohPosY)// herwee suns bairnaasaa hodolson bol
                 {
                     if (border[ghost.omnohPosY, ghost.omnohPosX] == " ")
                     {
-                        Console.SetCursorPosition(ghost.omnohPosX, ghost.omnohPosY);
+                        ghostOmnohPosition(ghost);
                         Console.Write(' ');
                     }
                     else if (border[ghost.omnohPosY, ghost.omnohPosX] == ".")
                     {
-                        Console.SetCursorPosition(ghost.omnohPosX, ghost.omnohPosY);
+                        ghostOmnohPosition(ghost);
                         Console.Write('.');
                     }
                     else if (border[ghost.omnohPosY, ghost.omnohPosX] == "*")
                     {
-                        Console.SetCursorPosition(ghost.omnohPosX, ghost.omnohPosY);
+                        ghostOmnohPosition(ghost);
                         Console.Write('*');
                     }
                 }
@@ -221,13 +224,13 @@ namespace Pacman
             {
                 case true:
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.SetCursorPosition(47, GameHeight - 2);
+                    Console.SetCursorPosition(47, GAMEHEIGHT - 2);
                     Console.Write("PAUSED");
                     pausedTextIsShown = true;
                     break;
                 case false:
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.SetCursorPosition(47, GameHeight - 2);
+                    Console.SetCursorPosition(47, GAMEHEIGHT - 2);
                     Console.Write("      ");
                     pausedTextIsShown = false;
                     break;
@@ -242,13 +245,11 @@ namespace Pacman
                     MovePlayer(pacman.NextDirection);
                     pacman.EarnPoint();
                     pacman.Direction = pacman.NextDirection;
-                    LoadGUI();
                     break;
                 case MapElements.Star:
                     MovePlayer(pacman.NextDirection);
                     pacman.EarnStar();
                     pacman.Direction = pacman.NextDirection;
-                    LoadGUI();
                     break;
                 case MapElements.Empty:
                     MovePlayer(pacman.NextDirection);
@@ -257,7 +258,6 @@ namespace Pacman
                 case MapElements.Ghost:
                     pacman.LoseLife();
                     MovePlayer("reset");
-                    LoadGUI();
                     break;
                 case MapElements.Wall:
                     switch (pacman.CheckCell(border, pacman.Direction, ghostList1))
@@ -265,12 +265,10 @@ namespace Pacman
                         case MapElements.Dot:
                             MovePlayer(pacman.Direction);
                             pacman.EarnPoint();
-                            LoadGUI();
                             break;
                         case MapElements.Star:
                             MovePlayer(pacman.Direction);
                             pacman.EarnStar();
-                            LoadGUI();
                             break;
                         case MapElements.Empty:
                             MovePlayer(pacman.Direction);
@@ -278,7 +276,6 @@ namespace Pacman
                         case MapElements.Ghost:
                             pacman.LoseLife();
                             MovePlayer("reset");
-                            LoadGUI();
                             break;
                         case MapElements.Wall:
                             break;
@@ -350,7 +347,7 @@ namespace Pacman
             {
                 if (random.Next(0, 2) != 0)
                 {
-                    ghostList1[i].Direction = Ghost.bolomjitZug[random.Next(0, Ghost.bolomjitZug.Length)];
+                    ghostList1[i].Direction = Ghost.zug[random.Next(0, Ghost.zug.Length)];
                 }
                 switch (ghostList1[i].Direction)
                 {
@@ -358,12 +355,10 @@ namespace Pacman
                         if (ghostList1[i].checkLeft(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
                         {
                             ghostList1[i].MoveLeft();
-                            //Moveghost();
                             if (ghostList1[i].GetPosX() == pacman.GetPosX() && ghostList1[i].GetPosY() == pacman.GetPosY())
                             {
                                 pacman.LoseLife();
                                 MovePlayer("reset");
-                                LoadGUI();
                             }
                         }
                         break;
@@ -371,12 +366,10 @@ namespace Pacman
                         if (ghostList1[i].CheckRight(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
                         {
                             ghostList1[i].MoveRight();
-                            //Moveghost();
                             if (ghostList1[i].GetPosX() == pacman.GetPosX() && ghostList1[i].GetPosY() == pacman.GetPosY())
                             {
                                 pacman.LoseLife();
                                 MovePlayer("reset");
-                                LoadGUI();
                             }
                         }
                         break;
@@ -384,12 +377,10 @@ namespace Pacman
                         if (ghostList1[i].CheckUp(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
                         {
                             ghostList1[i].MoveUp();
-                            //Moveghost();
                             if (ghostList1[i].GetPosX() == pacman.GetPosX() && ghostList1[i].GetPosY() == pacman.GetPosY())
                             {
                                 pacman.LoseLife();
                                 MovePlayer("reset");
-                                LoadGUI();
                             }
                         }
                         break;
@@ -401,17 +392,15 @@ namespace Pacman
                             {
                                 pacman.LoseLife();
                                 MovePlayer("reset");
-                                LoadGUI();
                             }
                         }
                         break;
 
                 }
             }
-
             Moveghost();
         }
-
+        
         static void CheckScore()
         {
            // Ghost ghost = new Ghost();
@@ -473,8 +462,8 @@ namespace Pacman
         {
             RedrawMap();
 
-            int horizontalPos = GameHeight / 2 - 2;
-            int verticalPos = GameWidth / 2 - 15;
+            int horizontalPos = GAMEHEIGHT / 2 - 2;
+            int verticalPos = GAMEWIDTH / 2 - 15;
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.SetCursorPosition(verticalPos, horizontalPos);
@@ -513,8 +502,8 @@ namespace Pacman
             Console.Clear();
             RedrawMap();
 
-            int horizontalPos = GameHeight / 2 - 2;
-            int verticalPos = GameWidth / 2 - 15;
+            int horizontalPos = GAMEHEIGHT / 2 - 2;
+            int verticalPos = GAMEWIDTH / 2 - 15;
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.SetCursorPosition(verticalPos, horizontalPos);
@@ -529,7 +518,7 @@ namespace Pacman
             Console.SetCursorPosition(verticalPos, horizontalPos + 4);
             Console.Write("|{0}|", new string('-', 27));
             Console.ForegroundColor = ConsoleColor.White;
-            Console.SetCursorPosition(0, GameHeight - 1);
+            Console.SetCursorPosition(0, GAMEHEIGHT - 1);
 
             ConsoleKeyInfo keyPressed = Console.ReadKey(true);
             while (true)
@@ -548,8 +537,8 @@ namespace Pacman
             Console.Clear();
             RedrawMap();
 
-            int horizontalPos = GameHeight / 2 - 2;
-            int verticalPos = GameWidth / 2 - 15;
+            int horizontalPos = GAMEHEIGHT / 2 - 2;
+            int verticalPos = GAMEWIDTH / 2 - 15;
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.SetCursorPosition(verticalPos, horizontalPos);
@@ -568,7 +557,7 @@ namespace Pacman
             Console.SetCursorPosition(verticalPos, horizontalPos + 6);
             Console.Write("|{0}|", new string('-', 27));
             Console.ForegroundColor = ConsoleColor.White;
-            Console.SetCursorPosition(0, GameHeight - 1);
+            Console.SetCursorPosition(0, GAMEHEIGHT - 1);
 
             ConsoleKeyInfo keyPressed = Console.ReadKey(true);
             while (true)
