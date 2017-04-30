@@ -8,9 +8,10 @@ namespace Pacman
     class Program 
     {
         //static int level = 0;
-        static Interfaces inface=new Interfaces();
         static int box = 1;// uy dawj suns hurd zergiig nemehed heregtei bolsn tooluur maygiin zuil
         static Random random = new Random();  //sunsnii hiih hodolgoon random baina
+        static bool gamePaused = false;  // togloom pause hiigdsen esehg zaah huwisagch
+        static bool pausedTextIsShown = false; //togloom pause hiigdwel garj ireh bichig text n haragdaj baigaa eseh 
         static bool loop = true; // main funkts dotorh while gol dawtaltiig urgejluuleh zogsooh gol huwisagch
         static PacMan pacman = new PacMan();  
         static int speed = 200; // togloomnii hurdnii anhnii utga
@@ -42,7 +43,7 @@ namespace Pacman
 
             RedrawMap(); //map-g achaallaj delgetsend zurah funkts
  
-            inface.LoadPlayer();// pacman buyu toglochiig achaallaj unshih funkts
+            LoadPlayer();// pacman buyu toglochiig achaallaj unshih funkts
 
             Loadghosts();// ghost-iig achaallan unshih funkts
 
@@ -50,23 +51,56 @@ namespace Pacman
             {
 
                 ReadUserKey();// toglogch keyboardnii ymr towch darj baigaag unshih funkts
-                if (inface.gameP()) // togloom pause hiigdsen eseh
+                if (gamePaused) // togloom pause hiigdsen eseh
                 {
-                    inface.blinkPausedText();//pause hiigdsen bol paused gej garah text-g aniwchuulah funkts
+                    BlinkPausedText();//pause hiigdsen bol paused gej garah text-g aniwchuulah funkts
                     continue;
                 }
                 
                 ghostAi();// sunsnii hodolgoon hiih zereg sunstei holbootoi buhii l zuilg hj bui funkts
 
                 PlayerMovement();// toglogchiin hodolgoon
-                inface.LoadGUI();
+                LoadGUI();
                 CheckIfNoLives();// ami baiga esehg shalgaad baixgvi bol dawtalt zogsooj togloom duusgana
 
                 CheckScore();// onoog shalgah funkts
 
                 Thread.Sleep(speed);// hurdiig taaruulj ogson thread
             }
-        }    
+        }
+
+        static void LoadGUI()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;// level gej talbariin baruun deed buland bichigdsen level geh txt-n ongo
+            Console.SetCursorPosition(40, 2);// tuunii bairlal
+            Console.Write("Level: {0}", pacman.GetLevel());// pacman-s utga awch level oorchlogdono
+
+            Console.ForegroundColor = ConsoleColor.Yellow;// score txt- ni shar ongoor durslegden
+            Console.SetCursorPosition(40, 4);// bairshil n 
+            Console.Write("Score: {0}", pacman.GetScore());
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.SetCursorPosition(40, 6);
+            Console.Write("Lives: {0}", pacman.Lives());
+
+            Console.ForegroundColor = ConsoleColor.White;// baruun dood buland baih togloom pause hiih eswel garah esehg zaasan towchiig haruulsan txtuud
+            Console.SetCursorPosition(40, GAMEHEIGHT - 8);
+            Console.Write("{0}", new string('-', 22)); // 22 gdg ni "-" ene temdegt 22 udaa durslegdene gesen ug
+            Console.SetCursorPosition(40, GAMEHEIGHT - 7);
+            Console.Write("|  PRESS P TO PAUSE  |");
+            Console.SetCursorPosition(40, GAMEHEIGHT - 6);
+            Console.Write("|  PRESS ESC TO EXIT |");
+            Console.SetCursorPosition(40, GAMEHEIGHT - 5);
+            Console.Write("{0}", new string('-', 22));
+        }
+
+        static void LoadPlayer()// toglogchiin bairshil ongo durs zergiig unshij dursleh funkts
+        {
+            Console.SetCursorPosition(pacman.GetPosX(), pacman.GetPosY());
+            Console.ForegroundColor = pacman.GetColor();
+            Console.Write(pacman.GetPac());
+        }
+
         static void Loadghosts()
         {
             foreach (var ghost in ghostList1)// gholstlist1 dotorh ghost huwisagch burt doorh uildluudiig hiine gsn operator
@@ -85,6 +119,7 @@ namespace Pacman
         {
             foreach (var ghost in ghostList1)
             {
+
                 Console.ForegroundColor = ghost.GetColor();
                 Console.SetCursorPosition(ghost.GetPosX(), ghost.GetPosY());
                 Console.Write(ghost.GetGhost());
@@ -110,6 +145,7 @@ namespace Pacman
             }
 
         }
+
         static void ReadUserKey()
         {
             if (Console.KeyAvailable)
@@ -121,7 +157,7 @@ namespace Pacman
                         GameOver();
                         break;
                     case ConsoleKey.P:
-                        inface.setGamePaused();
+                        SetGamePaused();
                         break;
                     case ConsoleKey.UpArrow:
                         pacman.NextDirection = "up";
@@ -151,6 +187,56 @@ namespace Pacman
                 }
             }
         }
+
+        static void SetGamePaused()
+        {
+            switch (gamePaused)
+            {
+                case false:
+                    ShowPausedText(true);
+                    break;
+                case true:
+                    ShowPausedText(false);
+                    break;
+            }
+
+            gamePaused = gamePaused ? false : true;
+        }
+
+        static void BlinkPausedText()
+        {
+            switch (pausedTextIsShown)
+            {
+                case true:
+                    Thread.Sleep(800);
+                    ShowPausedText(false);
+                    break;
+                case false:
+                    Thread.Sleep(800);
+                    ShowPausedText(true);
+                    break;
+            }
+        }
+
+        static void ShowPausedText(bool showText)
+        {
+            switch (showText)
+            {
+                case true:
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.SetCursorPosition(47, GAMEHEIGHT - 2);
+                    Console.Write("PAUSED");
+                    pausedTextIsShown = true;
+                    break;
+                case false:
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.SetCursorPosition(47, GAMEHEIGHT - 2);
+                    Console.Write("      ");
+                    pausedTextIsShown = false;
+                    break;
+            }
+        }
+
         static void PlayerMovement()
         {
             switch (pacman.CheckCell(border, pacman.NextDirection, ghostList1))
@@ -197,50 +283,61 @@ namespace Pacman
                     break;
             }
         }
-        static void PManTrace()
+       /* static void resetGhostPos()
         {
-            Console.SetCursorPosition(pacman.GetPosX(), pacman.GetPosY());
-            Console.Write(" ");
-        }
-        static void PManNewPos(int x,int y)
-        {
-            Console.SetCursorPosition(pacman.GetPosX() + x, pacman.GetPosY() + y);
-            Console.ForegroundColor = pacman.GetColor();
-            Console.Write(pacman.GetPac());
-        }
+            foreach(var ghost,in ghostList1)
+            {
+                Console.SetCursorPosition(ghost.);
+            }
+        }*/
         static void MovePlayer(string direction)
         {
             switch (direction)
             {
                 case "up":
-                    PManTrace();
+                    Console.SetCursorPosition(pacman.GetPosX(), pacman.GetPosY());
+                    Console.Write(" ");
                     ChangeMap();
-                    PManNewPos(0, -1);
+                    Console.SetCursorPosition(pacman.GetPosX(), pacman.GetPosY() - 1);
+                    Console.ForegroundColor = pacman.GetColor();
+                    Console.Write(pacman.GetPac());
                     pacman.MoveUp();
                     break;
                 case "right":
-                    PManTrace();
+                    Console.SetCursorPosition(pacman.GetPosX(), pacman.GetPosY());
+                    Console.Write(" ");
                     ChangeMap();
-                    PManNewPos(1, 0);
+                    Console.SetCursorPosition(pacman.GetPosX() + 1, pacman.GetPosY());
+                    Console.ForegroundColor = pacman.GetColor();
+                    Console.Write(pacman.GetPac());
                     pacman.MoveRight();
                     break;
                 case "down":
-                    PManTrace();
+                    Console.SetCursorPosition(pacman.GetPosX(), pacman.GetPosY());
+                    Console.Write(" ");
                     ChangeMap();
-                    PManNewPos(0, 1);
+                    Console.SetCursorPosition(pacman.GetPosX(), pacman.GetPosY() + 1);
+                    Console.ForegroundColor = pacman.GetColor();
+                    Console.Write(pacman.GetPac());
                     pacman.MoveDown();
                     break;
                 case "left":
-                    PManTrace();
+                    Console.SetCursorPosition(pacman.GetPosX(), pacman.GetPosY());
+                    Console.Write(" ");
                     ChangeMap();
-                    PManNewPos(-1, 0);
+                    Console.SetCursorPosition(pacman.GetPosX() - 1, pacman.GetPosY());
+                    Console.ForegroundColor = pacman.GetColor();
+                    Console.Write(pacman.GetPac());
                     pacman.MoveLeft();
                     break;
                 case "reset":
-                    PManTrace();
+                    Console.SetCursorPosition(pacman.GetPosX(), pacman.GetPosY());
+                    Console.Write(" ");
                     ChangeMap();
                     pacman.ResetPacMan();
-                    PManNewPos(0,0);
+                    Console.SetCursorPosition(pacman.GetPosX(), pacman.GetPosY());
+                    Console.ForegroundColor = pacman.GetColor();
+                    Console.Write(pacman.GetPac());
                     break;
             }
         }
@@ -302,12 +399,21 @@ namespace Pacman
                 }
             }
             Moveghost();
-        }        
+        }
+        
         static void CheckScore()
         {
+           // Ghost ghost = new Ghost();
+          //  if (ghost.count < 10)
+          //  {
+             //   ghost.addGhost(); 
+            //for (int i = 1; i <= (speed - speed / 3)/50;i++ )
+
+      
+           // ghostList11.Concat(Enumerable.Repeat(new Ghost, 1)).ToArray();
                 map = new Map();
                 
-                if (pacman.GetScore() >= 684*box && speed>50)
+                if (pacman.GetScore() >= 684*box && speed>50)//&& ghost.count == 10)
                 {
                     addGhost();
                     box++;
@@ -323,6 +429,7 @@ namespace Pacman
                     pacman.EarnPoint();
                     speed -= 20;
                 }
+            //}
         }
 
         static void CheckIfNoLives()
