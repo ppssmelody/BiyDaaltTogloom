@@ -12,7 +12,8 @@ namespace Pacman
         private Position ghostPos;
         public int omnohPosX;
         public int omnohPosY;
-        private string ghost = ((char)9787).ToString();
+        private const int EMOJI = 9787;
+        private string ghost = null;
         private ConsoleColor color;
         private const string WALL = "#";
         public string Direction = null;
@@ -25,6 +26,7 @@ namespace Pacman
         };
         public Ghost(ConsoleColor color, int x, int y)
         {
+            this.ghost = ((char)EMOJI).ToString();
             this.color = color;
             this.ghostPos = new Position(x, y);
             this.omnohPosX = x;

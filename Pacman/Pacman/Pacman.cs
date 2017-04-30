@@ -15,7 +15,7 @@ namespace Pacman
         private int level;// Uy 
         private int respawnTime = 600;
         private int firstX = 17, firstY = 20;
-        private int emojinumber = 9786;
+        private const int EMOJINUMBER = 9786;
         private const string WALL="#", DOT=".", STAR="*";
         private string durs = null; //Pacmanii console deer durslegdeh helber
         private ConsoleColor color = ConsoleColor.Yellow;//Pacmanii console deer haragdah ongo
@@ -24,7 +24,7 @@ namespace Pacman
         public string NextDirection = null;//Pacmanii daraagiin hodloh zug
         public PacMan()
         {
-            this.durs=((char)emojinumber).ToString();
+            this.durs=((char)EMOJINUMBER).ToString();
             this.pacmanPos = new Position(firstX, firstY);
             this.score = 0;// Anhnii onoo
             this.lives = 3;// Anhnii ami
@@ -90,7 +90,50 @@ namespace Pacman
         {
             return this.color;
         }
-
+        private bool upGhostmet(Ghost[] ghostList)
+        {
+            if (checkIfGhostAppears(ghostList, this.pacmanPos.Y -1, this.pacmanPos.X))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        private bool downGhostmet(Ghost[] ghostList)
+        {
+            if (checkIfGhostAppears(ghostList, this.pacmanPos.Y + 1, this.pacmanPos.X))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        private bool rightGhostmet(Ghost[] ghostList)
+        {
+            if (checkIfGhostAppears(ghostList, this.pacmanPos.Y , this.pacmanPos.X + 1))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        private bool leftGhostmet(Ghost[] ghostList)
+        {
+            if (checkIfGhostAppears(ghostList, this.pacmanPos.Y, this.pacmanPos.X - 1))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public MapElements CheckCell(string[,] border, string direction, Ghost[] ghostList)//xodolj bui zug deh daraagiin 1 nudend hana od tseg suns zereg baigaa esehiig shalgah funkts
         {
             switch (direction)// Pacmanii tuhain ywj bui chiglel
@@ -105,7 +148,7 @@ namespace Pacman
                         case STAR:
                             return MapElements.Star;
                         default:
-                            if (checkIfGhostAppears(ghostList, this.pacmanPos.Y - 1, this.pacmanPos.X))
+                            if (upGhostmet(ghostList))
                             {
                                 return MapElements.Ghost;
                             }
@@ -124,7 +167,7 @@ namespace Pacman
                         case STAR:
                             return MapElements.Star;
                         default:
-                            if (checkIfGhostAppears(ghostList, this.pacmanPos.Y, this.pacmanPos.X + 1))
+                            if (rightGhostmet(ghostList))                           
                             {
                                 return MapElements.Ghost;
                             }
@@ -143,7 +186,7 @@ namespace Pacman
                         case STAR:
                             return MapElements.Star;
                         default:
-                            if (checkIfGhostAppears(ghostList, this.pacmanPos.Y + 1, this.pacmanPos.X))
+                            if (downGhostmet(ghostList))
                             {
                                 return MapElements.Ghost;
                             }
@@ -162,7 +205,7 @@ namespace Pacman
                         case STAR:
                             return MapElements.Star;
                         default:
-                            if (checkIfGhostAppears(ghostList, this.pacmanPos.Y, this.pacmanPos.X - 1))
+                            if (leftGhostmet(ghostList))
                             {
                                 return MapElements.Ghost;
                             }
@@ -172,7 +215,7 @@ namespace Pacman
                             }
                     }
                 default:
-                    if (checkIfGhostAppears(ghostList, pacmanPos.Y, pacmanPos.X))
+                    if (checkIfGhostAppears(ghostList,pacmanPos.Y, pacmanPos.X))
                     {
                         return MapElements.Ghost;
                     }
