@@ -14,7 +14,8 @@ namespace Pacman
         public int omnohPosY;
         private string ghost = ((char)9787).ToString();
         private ConsoleColor color;
-        private const string WALL = "#"; 
+        private const string WALL = "#";
+        public string Direction = null;
         public static string[] zug =
         {
             "up",
@@ -22,7 +23,6 @@ namespace Pacman
             "left",
             "right"
         };
-        public static Random random = new Random();
         public Ghost(ConsoleColor color, int x, int y)
         {
             this.color = color;
@@ -30,7 +30,7 @@ namespace Pacman
             this.omnohPosX = x;
             this.omnohPosY = y;
         }
-        private bool checkLeft(Ghost[] ghostList, int x, int y, string[,] border)
+        public bool checkLeft(Ghost[] ghostList, int x, int y, string[,] border)
         {
             bool isEmpty = true;
             foreach (var ghost in ghostList)
@@ -49,7 +49,7 @@ namespace Pacman
 
             return isEmpty;
         }
-        private bool CheckRight(Ghost[] ghostList, int x, int y, string[,] border)
+        public bool CheckRight(Ghost[] ghostList, int x, int y, string[,] border)
         {
             bool isEmpty = true;
             foreach (var ghost in ghostList)
@@ -69,7 +69,7 @@ namespace Pacman
 
             return isEmpty;
         }
-        private bool CheckUp(Ghost[] ghostList, int x, int y, string[,] border)
+        public bool CheckUp(Ghost[] ghostList, int x, int y, string[,] border)
         {
             bool isEmpty = true;
             foreach (var ghost in ghostList)
@@ -88,7 +88,7 @@ namespace Pacman
 
             return isEmpty;
         }
-        private bool CheckDown(Ghost[] ghostList, int x, int y, string[,] border)
+        public bool CheckDown(Ghost[] ghostList, int x, int y, string[,] border)
         {
             bool isEmpty = true;
             foreach (var ghost in ghostList)
