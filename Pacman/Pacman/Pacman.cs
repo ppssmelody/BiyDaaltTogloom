@@ -90,6 +90,21 @@ namespace Pacman
         {
             return this.color;
         }
+
+        private bool checkIfGhostAppears(Ghost[] ghostList, int pacManPosY, int pacManPosX)
+        {
+            foreach (var ghost in ghostList)
+            {
+                if (ghost.GetPosX() == pacManPosX && ghost.GetPosY() == pacManPosY)
+                {
+                    return true;
+                }
+
+            }
+
+            return false;
+
+        }
         private bool upGhostmet(Ghost[] ghostList)
         {
             if (checkIfGhostAppears(ghostList, this.pacmanPos.Y -1, this.pacmanPos.X))
@@ -240,21 +255,6 @@ namespace Pacman
         public void MoveRight()
         {
             this.pacmanPos.X += 1;
-        }
-
-        private bool checkIfGhostAppears(Ghost[] ghostList, int pacManPosY, int pacManPosX)
-        {
-            foreach (var ghost in ghostList)
-            {
-                if (ghost.GetPosX() == pacManPosX && ghost.GetPosY() == pacManPosY)
-                {
-                    return true;
-                }
-
-            }
-
-            return false;
-
         }
     }
 }
