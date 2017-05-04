@@ -3,24 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Threading;
 namespace Pacman
 {
-    class Interfaces
+    class Pause
     {
-        PacMan pacman = new PacMan();
         private Boolean gamePaused = false;
         private Boolean pausedTextIsShown = false;
-        const int GAMEWIDTH = 70;
-        const int GAMEHEIGHT = 29;
+        private const int GAMEWIDTH = 70;
+        private const int GAMEHEIGHT = 29;
+
         public bool gameP() { return this.gamePaused; }
         public bool textS() { return this.pausedTextIsShown; }
-        public void LoadPlayer()// toglogchiin bairshil ongo durs zergiig unshij dursleh funkts
-        {
-            Console.SetCursorPosition(pacman.GetPosX(), pacman.GetPosY());
-            Console.ForegroundColor = pacman.GetColor();
-            Console.Write(pacman.GetPac());
-        }
         public void setGamePaused()
         {
             switch (gameP())
@@ -69,31 +63,5 @@ namespace Pacman
                     break;
             }
         }
-
-        public void LoadGUI()
-        {
-            Console.ForegroundColor = ConsoleColor.Green;// level gej talbariin baruun deed buland bichigdsen level geh txt-n ongo
-            Console.SetCursorPosition(40, 2);// tuunii bairlal
-            Console.Write("Level: {0}", pacman.GetLevel());// pacman-s utga awch level oorchlogdono
-
-            Console.ForegroundColor = ConsoleColor.Yellow;// score txt- ni shar ongoor durslegden
-            Console.SetCursorPosition(40, 4);// bairshil n 
-            Console.Write("Score: {0}", pacman.GetScore());
-
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.SetCursorPosition(40, 6);
-            Console.Write("Lives: {0}", pacman.Lives());
-
-            Console.ForegroundColor = ConsoleColor.White;// baruun dood buland baih togloom pause hiih eswel garah esehg zaasan towchiig haruulsan txtuud
-            Console.SetCursorPosition(40, GAMEHEIGHT - 8);
-            Console.Write("{0}", new string('-', 22)); // 22 gdg ni "-" ene temdegt 22 udaa durslegdene gesen ug
-            Console.SetCursorPosition(40, GAMEHEIGHT - 7);
-            Console.Write("|  PRESS P TO PAUSE  |");
-            Console.SetCursorPosition(40, GAMEHEIGHT - 6);
-            Console.Write("|  PRESS ESC TO EXIT |");
-            Console.SetCursorPosition(40, GAMEHEIGHT - 5);
-            Console.Write("{0}", new string('-', 22));
-        }
-
     }
 }

@@ -8,7 +8,7 @@ namespace Pacman
     class Program
     {
         //static int level = 0;
-        static Interfaces inface = new Interfaces();
+        static Pause pause = new Pause();
         static int box = 1;// uy dawj suns hurd zergiig nemehed heregtei bolsn tooluur maygiin zuil
         static Random random = new Random();  //sunsnii hiih hodolgoon random baina
         static bool loop = true; // main funkts dotorh while gol dawtaltiig urgejluuleh zogsooh gol huwisagch
@@ -42,7 +42,7 @@ namespace Pacman
 
             RedrawMap(); //map-g achaallaj delgetsend zurah funkts
 
-            inface.LoadPlayer();// pacman buyu toglochiig achaallaj unshih funkts
+            LoadPlayer();// pacman buyu toglochiig achaallaj unshih funkts
 
             Loadghosts();// ghost-iig achaallan unshih funkts
 
@@ -50,22 +50,52 @@ namespace Pacman
             {
 
                 ReadUserKey();// toglogch keyboardnii ymr towch darj baigaag unshih funkts
-                if (inface.gameP()) // togloom pause hiigdsen eseh
+                if (pause.gameP()) // togloom pause hiigdsen eseh
                 {
-                    inface.blinkPausedText();//pause hiigdsen bol paused gej garah text-g aniwchuulah funkts
+                    pause.blinkPausedText();//pause hiigdsen bol paused gej garah text-g aniwchuulah funkts
                     continue;
                 }
 
                 ghostAi();// sunsnii hodolgoon hiih zereg sunstei holbootoi buhii l zuilg hj bui funkts
 
                 PlayerMovement();// toglogchiin hodolgoon
-                inface.LoadGUI();
+                LoadGUI();
                 CheckIfNoLives();// ami baiga esehg shalgaad baixgvi bol dawtalt zogsooj togloom duusgana
 
                 CheckScore();// onoog shalgah funkts
 
                 Thread.Sleep(speed);// hurdiig taaruulj ogson thread
             }
+        }
+        static void LoadPlayer()// toglogchiin bairshil ongo durs zergiig unshij dursleh funkts
+        {
+            Console.SetCursorPosition(pacman.GetPosX(), pacman.GetPosY());
+            Console.ForegroundColor = pacman.GetColor();
+            Console.Write(pacman.GetPac());
+        }
+        static void LoadGUI()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;// level gej talbariin baruun deed buland bichigdsen level geh txt-n ongo
+            Console.SetCursorPosition(40, 2);// tuunii bairlal
+            Console.Write("Level: {0}", pacman.GetLevel());// pacman-s utga awch level oorchlogdono
+
+            Console.ForegroundColor = ConsoleColor.Yellow;// score txt- ni shar ongoor durslegden
+            Console.SetCursorPosition(40, 4);// bairshil n 
+            Console.Write("Score: {0}", pacman.GetScore());
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.SetCursorPosition(40, 6);
+            Console.Write("Lives: {0}", pacman.Lives());
+
+            Console.ForegroundColor = ConsoleColor.White;// baruun dood buland baih togloom pause hiih eswel garah esehg zaasan towchiig haruulsan txtuud
+            Console.SetCursorPosition(40, GAMEHEIGHT - 8);
+            Console.Write("{0}", new string('-', 22)); // 22 gdg ni "-" ene temdegt 22 udaa durslegdene gesen ug
+            Console.SetCursorPosition(40, GAMEHEIGHT - 7);
+            Console.Write("|  PRESS P TO PAUSE  |");
+            Console.SetCursorPosition(40, GAMEHEIGHT - 6);
+            Console.Write("|  PRESS ESC TO EXIT |");
+            Console.SetCursorPosition(40, GAMEHEIGHT - 5);
+            Console.Write("{0}", new string('-', 22));
         }
         static void Loadghosts()
         {
@@ -121,7 +151,7 @@ namespace Pacman
                         GameOver();
                         break;
                     case ConsoleKey.P:
-                        inface.setGamePaused();
+                        pause.setGamePaused();
                         break;
                     case ConsoleKey.UpArrow:
                         pacman.NextDirection = "up";
@@ -215,25 +245,25 @@ namespace Pacman
                 case "up":
                     PManTrace();
                     ChangeMap();
-                    PManNewPos(0, -1);
+                    PManNewPos(0, -1);//x  y
                     pacman.MoveUp();
                     break;
                 case "right":
                     PManTrace();
                     ChangeMap();
-                    PManNewPos(1, 0);
+                    PManNewPos(1, 0);//x  y
                     pacman.MoveRight();
                     break;
                 case "down":
                     PManTrace();
                     ChangeMap();
-                    PManNewPos(0, 1);
+                    PManNewPos(0, 1);//x  y
                     pacman.MoveDown();
                     break;
                 case "left":
                     PManTrace();
                     ChangeMap();
-                    PManNewPos(-1, 0);
+                    PManNewPos(-1, 0);//x  y
                     pacman.MoveLeft();
                     break;
                 case "reset":
