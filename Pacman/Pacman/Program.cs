@@ -285,7 +285,7 @@ namespace Pacman
                 switch (ghostList1[i].Direction)
                 {
                     case "left":
-                        if (ghostList1[i].checkLeft(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
+                        if (ghostList1[i].checkDir(ghostList1, border, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), ghostList1[i].Direction))//ghostList1[i].CheckLeft(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
                         {
                             ghostList1[i].MoveLeft();
                             if (ghostList1[i].GetPosX() == pacman.GetPosX() && ghostList1[i].GetPosY() == pacman.GetPosY())
@@ -296,7 +296,7 @@ namespace Pacman
                         }
                         break;
                     case "right":
-                        if (ghostList1[i].CheckRight(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
+                        if (ghostList1[i].checkDir(ghostList1,border,ghostList1[i].GetPosX(),ghostList1[i].GetPosY(),ghostList1[i].Direction))//CheckRight(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
                         {
                             ghostList1[i].MoveRight();
                             if (ghostList1[i].GetPosX() == pacman.GetPosX() && ghostList1[i].GetPosY() == pacman.GetPosY())
@@ -307,7 +307,7 @@ namespace Pacman
                         }
                         break;
                     case "up":
-                        if (ghostList1[i].CheckUp(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
+                        if (ghostList1[i].checkDir(ghostList1,border,ghostList1[i].GetPosX(),ghostList1[i].GetPosY(),ghostList1[i].Direction))//.CheckUp(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
                         {
                             ghostList1[i].MoveUp();
                             if (ghostList1[i].GetPosX() == pacman.GetPosX() && ghostList1[i].GetPosY() == pacman.GetPosY())
@@ -318,7 +318,7 @@ namespace Pacman
                         }
                         break;
                     case "down":
-                        if (ghostList1[i].CheckDown(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
+                        if (ghostList1[i].checkDir(ghostList1, border, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), ghostList1[i].Direction))//ghostList1[i].CheckDown(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
                         {
                             ghostList1[i].MoveDown();
                             if (ghostList1[i].GetPosX() == pacman.GetPosX() && ghostList1[i].GetPosY() == pacman.GetPosY())

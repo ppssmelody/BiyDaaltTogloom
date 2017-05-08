@@ -26,15 +26,28 @@ namespace Pacman
         };
         public Ghost(ConsoleColor color, int x, int y)
         {
-            this.ghost = ((char)EMOJI).ToString();
+            this.ghost = "M";//((char)EMOJI).ToString();
             this.color = color;
             this.ghostPos = new Position(x, y);
             this.omnohPosX = x;
             this.omnohPosY = y;
         }
-        public bool checkLeft(Ghost[] ghostList, int x, int y, string[,] border)
+        public bool checkDir(Ghost[] ghostList, string[,] border, int x, int y,string direction)
         {
             bool isEmpty = true;
+            switch (direction)
+            {
+                case "left": isEmpty = CheckLeft(ghostList, x, y, border); break;
+                case "right": isEmpty = CheckRight(ghostList, x, y, border); break;
+                case "down": isEmpty = CheckDown(ghostList, x, y, border); break;
+                case "up": isEmpty = CheckUp(ghostList, x, y, border); break;
+                
+            }
+            return isEmpty;
+        }
+        private bool CheckLeft(Ghost[] ghostList, int x, int y, string[,] border)
+        {
+            bool isEmpty = true ;
             foreach (var ghost in ghostList)
             {
                 if (x - 1 == ghost.GetPosX() && y == ghost.GetPosY())
@@ -51,7 +64,7 @@ namespace Pacman
 
             return isEmpty;
         }
-        public bool CheckRight(Ghost[] ghostList, int x, int y, string[,] border)
+        private bool CheckRight(Ghost[] ghostList, int x, int y, string[,] border)
         {
             bool isEmpty = true;
             foreach (var ghost in ghostList)
@@ -71,7 +84,7 @@ namespace Pacman
 
             return isEmpty;
         }
-        public bool CheckUp(Ghost[] ghostList, int x, int y, string[,] border)
+        private bool CheckUp(Ghost[] ghostList, int x, int y, string[,] border)
         {
             bool isEmpty = true;
             foreach (var ghost in ghostList)
@@ -90,7 +103,7 @@ namespace Pacman
 
             return isEmpty;
         }
-        public bool CheckDown(Ghost[] ghostList, int x, int y, string[,] border)
+        private bool CheckDown(Ghost[] ghostList, int x, int y, string[,] border)
         {
             bool isEmpty = true;
             foreach (var ghost in ghostList)
