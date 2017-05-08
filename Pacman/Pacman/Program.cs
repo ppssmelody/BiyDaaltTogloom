@@ -13,13 +13,19 @@ namespace Pacman
         static Random random = new Random();  //sunsnii hiih hodolgoon random baina
         static bool loop = true; // main funkts dotorh while gol dawtaltiig urgejluuleh zogsooh gol huwisagch
         static PacMan pacman = new PacMan();
+        static int ghostPosIndex = 4;
+        static int ghostSpawnIndex = 0;
+        const int[] ghostSpawnX = new int[10]{
+        15,16,17,12,15,16,17,18,15,16,};
+        const int[] ghostSpawnY = new int[10]{
+        14,13,12,11,12,11,13,8,9,10,};
         static int speed = 200; // togloomnii hurdnii anhnii utga
         static Ghost[] ghostList1 = new Ghost[4] // sunsnii anhnii utga anh 4 suns  ogogdono
         {
-            new Ghost(ConsoleColor.Red,15,8),
-            new Ghost(ConsoleColor.Cyan,16,12),
-            new Ghost(ConsoleColor.Magenta,17,12),
-            new Ghost(ConsoleColor.DarkCyan,18,12),
+            new Ghost(GetRandomConsoleColor(),ghostSpawnX[0],ghostSpawnY[0]),
+            new Ghost(GetRandomConsoleColor(),ghostSpawnX[1],ghostSpawnY[1]),
+            new Ghost(GetRandomConsoleColor(),ghostSpawnX[2],ghostSpawnY[2]),
+            new Ghost(GetRandomConsoleColor(),ghostSpawnX[3],ghostSpawnY[3]),
             
         };
         // Map
@@ -28,6 +34,11 @@ namespace Pacman
         // Console Settings
         const int GAMEWIDTH = 70;
         const int GAMEHEIGHT = 29;
+        static ConsoleColor GetRandomConsoleColor()
+        {
+            var consoleColors = Enum.GetValues(typeof(ConsoleColor));
+            return (ConsoleColor)consoleColors.GetValue(random.Next(consoleColors.Length));
+        }
 
         public static void Main(string[] args)
         {
@@ -344,7 +355,9 @@ namespace Pacman
                 border = map.GetMap;
                 RedrawMap();
                 MovePlayer("reset");
+                resetGhostPos();
                 pacman.addLevel();
+                ghostSpawnIndex = 0;
                 if (pacman.GetLevel() == 5)
                 {
                     loop = false;
@@ -415,10 +428,23 @@ namespace Pacman
                 keyPressed = Console.ReadKey(true);
             }
         }
+        /*static void resetGhostPos()
+        {
+            foreach (var ghost in ghostList1)
+            {                
+                ghost.setPosX(ghostSpawnX[ghostSpawnIndex]);
+                ghost.setPosY(ghostSpawnY[ghostSpawnIndex]);
+                ghostSpawnIndex++;
+                Console.ForegroundColor = ghost.GetColor();
+                Console.SetCursorPosition(ghost.GetPosX(), ghost.GetPosY());
+                Console.Write(ghost.GetGhost());
+            }
+        }*/
         static void addGhost()
         {
             Array.Resize(ref ghostList1, ghostList1.Length + 1);
-            ghostList1[ghostList1.Length - 1] = new Ghost(ConsoleColor.Blue, 15, 11);
+            ghostList1[ghostList1.Length - 1] = new Ghost(GetRandomConsoleColor(), ghostSpawnX[ghostPosIndex], ghostSpawnY[ghostPosIndex]);
+            ghostPosIndex++;
         }
         static void GameOver()
         {

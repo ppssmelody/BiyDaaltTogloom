@@ -9,6 +9,10 @@ namespace Pacman
     class Ghost
     {
         //69 //28
+        const int[] ghostSpawnX = new int[10]{
+        15,16,17,18,15,16,17,18,15,16};
+        const int[] ghostSpawnY = new int[10]{
+        8,9,10,11,12,11,13,8,9,10};
         private Position ghostPos;
         public int omnohPosX;
         public int omnohPosY;
@@ -24,6 +28,7 @@ namespace Pacman
             "left",
             "right"
         };
+        
         public Ghost(ConsoleColor color, int x, int y)
         {
             this.ghost = "M";//((char)EMOJI).ToString();
@@ -138,6 +143,11 @@ namespace Pacman
         {
             return this.color;
         }
+        public void setPosX(int x)
+        { this.ghostPos.X = x; }
+
+        public void setPosY(int y)
+        { this.ghostPos.Y = y; }
         public void MoveRight()
         {
             omnohPosX = ghostPos.X;

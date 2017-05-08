@@ -10,3 +10,9 @@ C:\Users\Jamts\Documents\GitHub\BiyDaaltTogloom\Pacman\Pacman\obj\Release\Pacman
 C:\Users\Jamts\Documents\GitHub\BiyDaaltTogloom\Pacman\Pacman\bin\Release\Pacman.exe
 C:\Users\Jamts\Documents\GitHub\BiyDaaltTogloom\Pacman\Pacman\bin\Release\Pacman.pdb
 C:\Users\Jamts\Documents\GitHub\BiyDaaltTogloom\Pacman\Pacman\obj\Release\Pacman.csprojResolveAssemblyReference.cache
+C:\Users\Acer\Documents\GitHub\BiyDaaltTogloom\Pacman\Pacman\bin\Release\Pacman.exe.config
+C:\Users\Acer\Documents\GitHub\BiyDaaltTogloom\Pacman\Pacman\obj\Release\Pacman.exe
+C:\Users\Acer\Documents\GitHub\BiyDaaltTogloom\Pacman\Pacman\obj\Release\Pacman.pdb
+C:\Users\Acer\Documents\GitHub\BiyDaaltTogloom\Pacman\Pacman\bin\Release\Pacman.exe
+C:\Users\Acer\Documents\GitHub\BiyDaaltTogloom\Pacman\Pacman\bin\Release\Pacman.pdb
+C:\Users\Acer\Documents\GitHub\BiyDaaltTogloom\Pacman\Pacman\obj\Release\Pacman.csprojResolveAssemblyReference.cache
