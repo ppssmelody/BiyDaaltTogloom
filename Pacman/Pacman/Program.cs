@@ -14,31 +14,26 @@ namespace Pacman
         static bool loop = true; // main funkts dotorh while gol dawtaltiig urgejluuleh zogsooh gol huwisagch
         static PacMan pacman = new PacMan();
         static int ghostPosIndex = 4;
-        static int ghostSpawnIndex = 0;
-        const int[] ghostSpawnX = new int[10]{
-        15,16,17,12,15,16,17,18,15,16,};
-        const int[] ghostSpawnY = new int[10]{
-        14,13,12,11,12,11,13,8,9,10,};
         static int speed = 200; // togloomnii hurdnii anhnii utga
         static Ghost[] ghostList1 = new Ghost[4] // sunsnii anhnii utga anh 4 suns  ogogdono
         {
-            new Ghost(GetRandomConsoleColor(),ghostSpawnX[0],ghostSpawnY[0]),
-            new Ghost(GetRandomConsoleColor(),ghostSpawnX[1],ghostSpawnY[1]),
-            new Ghost(GetRandomConsoleColor(),ghostSpawnX[2],ghostSpawnY[2]),
-            new Ghost(GetRandomConsoleColor(),ghostSpawnX[3],ghostSpawnY[3]),
+            new Ghost(getRandomConsoleColor(),Ghost.ghostSpanX[0],Ghost.ghostSpanY[0]),
+            new Ghost(getRandomConsoleColor(),Ghost.ghostSpanX[1],Ghost.ghostSpanY[1]),
+            new Ghost(getRandomConsoleColor(),Ghost.ghostSpanX[2],Ghost.ghostSpanY[2]),
+            new Ghost(getRandomConsoleColor(),Ghost.ghostSpanX[3],Ghost.ghostSpanY[3]),
             
         };
+        static ConsoleColor getRandomConsoleColor()
+        {
+            var ConsoleColors = Enum.GetValues(typeof(ConsoleColor));
+            return (ConsoleColor)ConsoleColors.GetValue(random.Next(ConsoleColors.Length));
+        }
         // Map
         static Map map = new Map();
         static string[,] border = map.GetMap;  //border huwisagchid map aa hadgalj map deeree oorchlolt oruulahad ashiglasan 
         // Console Settings
         const int GAMEWIDTH = 70;
         const int GAMEHEIGHT = 29;
-        static ConsoleColor GetRandomConsoleColor()
-        {
-            var consoleColors = Enum.GetValues(typeof(ConsoleColor));
-            return (ConsoleColor)consoleColors.GetValue(random.Next(consoleColors.Length));
-        }
 
         public static void Main(string[] args)
         {
@@ -48,7 +43,6 @@ namespace Pacman
             Console.BufferWidth = GAMEWIDTH;
             Console.WindowHeight = GAMEHEIGHT;// ondor-iin hemjeeg olgoson
             Console.BufferHeight = GAMEHEIGHT;
-
             ShowWelcomeMenu();// ug funkts n togloom ehlehed garch ireh x darj togloom ehluuleh eswel escape darj garah gsn txt-g haruulna
 
             RedrawMap(); //map-g achaallaj delgetsend zurah funkts
@@ -307,7 +301,7 @@ namespace Pacman
                         }
                         break;
                     case "right":
-                        if (ghostList1[i].checkDir(ghostList1,border,ghostList1[i].GetPosX(),ghostList1[i].GetPosY(),ghostList1[i].Direction))//CheckRight(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
+                        if (ghostList1[i].checkDir(ghostList1, border, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), ghostList1[i].Direction))//CheckRight(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
                         {
                             ghostList1[i].MoveRight();
                             if (ghostList1[i].GetPosX() == pacman.GetPosX() && ghostList1[i].GetPosY() == pacman.GetPosY())
@@ -318,7 +312,7 @@ namespace Pacman
                         }
                         break;
                     case "up":
-                        if (ghostList1[i].checkDir(ghostList1,border,ghostList1[i].GetPosX(),ghostList1[i].GetPosY(),ghostList1[i].Direction))//.CheckUp(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
+                        if (ghostList1[i].checkDir(ghostList1, border, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), ghostList1[i].Direction))//.CheckUp(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
                         {
                             ghostList1[i].MoveUp();
                             if (ghostList1[i].GetPosX() == pacman.GetPosX() && ghostList1[i].GetPosY() == pacman.GetPosY())
@@ -355,9 +349,7 @@ namespace Pacman
                 border = map.GetMap;
                 RedrawMap();
                 MovePlayer("reset");
-                resetGhostPos();
                 pacman.addLevel();
-                ghostSpawnIndex = 0;
                 if (pacman.GetLevel() == 5)
                 {
                     loop = false;
@@ -428,22 +420,11 @@ namespace Pacman
                 keyPressed = Console.ReadKey(true);
             }
         }
-        /*static void resetGhostPos()
-        {
-            foreach (var ghost in ghostList1)
-            {                
-                ghost.setPosX(ghostSpawnX[ghostSpawnIndex]);
-                ghost.setPosY(ghostSpawnY[ghostSpawnIndex]);
-                ghostSpawnIndex++;
-                Console.ForegroundColor = ghost.GetColor();
-                Console.SetCursorPosition(ghost.GetPosX(), ghost.GetPosY());
-                Console.Write(ghost.GetGhost());
-            }
-        }*/
         static void addGhost()
         {
             Array.Resize(ref ghostList1, ghostList1.Length + 1);
-            ghostList1[ghostList1.Length - 1] = new Ghost(GetRandomConsoleColor(), ghostSpawnX[ghostPosIndex], ghostSpawnY[ghostPosIndex]);
+
+            ghostList1[ghostList1.Length - 1] = new Ghost(getRandomConsoleColor(), Ghost.ghostSpanX[ghostPosIndex], Ghost.ghostSpanY[ghostPosIndex]);
             ghostPosIndex++;
         }
         static void GameOver()
