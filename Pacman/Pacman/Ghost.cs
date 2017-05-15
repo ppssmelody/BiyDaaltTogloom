@@ -17,6 +17,8 @@ namespace Pacman
         private ConsoleColor color;
         private const string WALL = "#";
         public string Direction = null;
+        public static int[] ghostSpanX = new int[10] {15,16,17,13,15,16,17,18,15,16,};
+        public static int[] ghostSpanY = new int[10] { 14,13,12,11,12,11,13,10,9,10,};
         public static string[] zug =
         {
             "up",
@@ -26,7 +28,7 @@ namespace Pacman
         };
         public Ghost(ConsoleColor color, int x, int y)
         {
-            this.ghost = "M";//((char)EMOJI).ToString();
+            this.ghost = ((char)EMOJI).ToString();
             this.color = color;
             this.ghostPos = new Position(x, y);
             this.omnohPosX = x;
@@ -44,6 +46,14 @@ namespace Pacman
                 
             }
             return isEmpty;
+        }
+        public void moveGhost(Ghost[] ghostList)
+        {
+            foreach (var ghost in ghostList)
+            {
+ 
+            }
+ 
         }
         private bool CheckLeft(Ghost[] ghostList, int x, int y, string[,] border)
         {
@@ -92,7 +102,7 @@ namespace Pacman
                 if (x == ghost.GetPosX() && y - 1 == ghost.GetPosY())
                 {
                     isEmpty = false;
-                    break;
+                foreach     break;
                 }
             }
 

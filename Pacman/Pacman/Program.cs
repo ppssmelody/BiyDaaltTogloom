@@ -13,15 +13,22 @@ namespace Pacman
         static Random random = new Random();  //sunsnii hiih hodolgoon random baina
         static bool loop = true; // main funkts dotorh while gol dawtaltiig urgejluuleh zogsooh gol huwisagch
         static PacMan pacman = new PacMan();
+        static int ghostPosIndex = 4;
+        const string UP = "up", DOWN = "down", RIGHT = "right", LEFT = "left",RESET="reset";
         static int speed = 200; // togloomnii hurdnii anhnii utga
         static Ghost[] ghostList1 = new Ghost[4] // sunsnii anhnii utga anh 4 suns  ogogdono
         {
-            new Ghost(ConsoleColor.Red,15,8),
-            new Ghost(ConsoleColor.Cyan,16,12),
-            new Ghost(ConsoleColor.Magenta,17,12),
-            new Ghost(ConsoleColor.DarkCyan,18,12),
+            new Ghost(getRandomConsoleColor(),Ghost.ghostSpanX[0],Ghost.ghostSpanY[0]),
+            new Ghost(getRandomConsoleColor(),Ghost.ghostSpanX[1],Ghost.ghostSpanY[1]),
+            new Ghost(getRandomConsoleColor(),Ghost.ghostSpanX[2],Ghost.ghostSpanY[2]),
+            new Ghost(getRandomConsoleColor(),Ghost.ghostSpanX[3],Ghost.ghostSpanY[3]),
             
         };
+        static ConsoleColor getRandomConsoleColor()
+        {
+            var ConsoleColors = Enum.GetValues(typeof(ConsoleColor));
+            return (ConsoleColor)ConsoleColors.GetValue(random.Next(ConsoleColors.Length));
+        }
         // Map
         static Map map = new Map();
         static string[,] border = map.GetMap;  //border huwisagchid map aa hadgalj map deeree oorchlolt oruulahad ashiglasan 
@@ -37,7 +44,6 @@ namespace Pacman
             Console.BufferWidth = GAMEWIDTH;
             Console.WindowHeight = GAMEHEIGHT;// ondor-iin hemjeeg olgoson
             Console.BufferHeight = GAMEHEIGHT;
-
             ShowWelcomeMenu();// ug funkts n togloom ehlehed garch ireh x darj togloom ehluuleh eswel escape darj garah gsn txt-g haruulna
 
             RedrawMap(); //map-g achaallaj delgetsend zurah funkts
@@ -154,29 +160,29 @@ namespace Pacman
                         pause.setGamePaused();
                         break;
                     case ConsoleKey.UpArrow:
-                        pacman.NextDirection = "up";
+                        pacman.NextDirection = UP;
                         break;
                     case ConsoleKey.W:
-                        pacman.NextDirection = "up";
+                        pacman.NextDirection = UP;
                         break;
                     case ConsoleKey.DownArrow:
-                        pacman.NextDirection = "down";
+                        pacman.NextDirection = DOWN;
                         break;
 
                     case ConsoleKey.S:
-                        pacman.NextDirection = "down";
+                        pacman.NextDirection = DOWN;
                         break;
                     case ConsoleKey.LeftArrow:
-                        pacman.NextDirection = "left";
+                        pacman.NextDirection = LEFT;
                         break;
                     case ConsoleKey.A:
-                        pacman.NextDirection = "left";
+                        pacman.NextDirection = LEFT;
                         break;
                     case ConsoleKey.RightArrow:
-                        pacman.NextDirection = "right";
+                        pacman.NextDirection = RIGHT;
                         break;
                     case ConsoleKey.D:
-                        pacman.NextDirection = "right";
+                        pacman.NextDirection = RIGHT;
                         break;
                 }
             }
@@ -201,7 +207,7 @@ namespace Pacman
                     break;
                 case MapElements.Ghost:
                     pacman.LoseLife();
-                    MovePlayer("reset");
+                    MovePlayer(RESET);
                     break;
                 case MapElements.Wall:
                     switch (pacman.CheckCell(border, pacman.Direction, ghostList1))
@@ -219,7 +225,7 @@ namespace Pacman
                             break;
                         case MapElements.Ghost:
                             pacman.LoseLife();
-                            MovePlayer("reset");
+                            MovePlayer(RESET);
                             break;
                         case MapElements.Wall:
                             break;
@@ -242,31 +248,31 @@ namespace Pacman
         {
             switch (direction)
             {
-                case "up":
+                case UP:
                     PManTrace();
                     ChangeMap();
                     PManNewPos(0, -1);//x  y
                     pacman.MoveUp();
                     break;
-                case "right":
+                case RIGHT:
                     PManTrace();
                     ChangeMap();
                     PManNewPos(1, 0);//x  y
                     pacman.MoveRight();
                     break;
-                case "down":
+                case DOWN:
                     PManTrace();
                     ChangeMap();
                     PManNewPos(0, 1);//x  y
                     pacman.MoveDown();
                     break;
-                case "left":
+                case LEFT:
                     PManTrace();
                     ChangeMap();
                     PManNewPos(-1, 0);//x  y
                     pacman.MoveLeft();
                     break;
-                case "reset":
+                case RESET:
                     PManTrace();
                     ChangeMap();
                     pacman.ResetPacMan();
@@ -284,47 +290,47 @@ namespace Pacman
                 }
                 switch (ghostList1[i].Direction)
                 {
-                    case "left":
+                    case LEFT:
                         if (ghostList1[i].checkDir(ghostList1, border, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), ghostList1[i].Direction))//ghostList1[i].CheckLeft(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
                         {
                             ghostList1[i].MoveLeft();
                             if (ghostList1[i].GetPosX() == pacman.GetPosX() && ghostList1[i].GetPosY() == pacman.GetPosY())
                             {
                                 pacman.LoseLife();
-                                MovePlayer("reset");
+                                MovePlayer(RESET);
                             }
                         }
                         break;
-                    case "right":
+                    case RIGHT:
                         if (ghostList1[i].checkDir(ghostList1,border,ghostList1[i].GetPosX(),ghostList1[i].GetPosY(),ghostList1[i].Direction))//CheckRight(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
                         {
                             ghostList1[i].MoveRight();
                             if (ghostList1[i].GetPosX() == pacman.GetPosX() && ghostList1[i].GetPosY() == pacman.GetPosY())
                             {
                                 pacman.LoseLife();
-                                MovePlayer("reset");
+                                MovePlayer(RESET);
                             }
                         }
                         break;
-                    case "up":
+                    case UP:
                         if (ghostList1[i].checkDir(ghostList1,border,ghostList1[i].GetPosX(),ghostList1[i].GetPosY(),ghostList1[i].Direction))//.CheckUp(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
                         {
                             ghostList1[i].MoveUp();
                             if (ghostList1[i].GetPosX() == pacman.GetPosX() && ghostList1[i].GetPosY() == pacman.GetPosY())
                             {
                                 pacman.LoseLife();
-                                MovePlayer("reset");
+                                MovePlayer(RESET);
                             }
                         }
                         break;
-                    case "down":
+                    case DOWN:
                         if (ghostList1[i].checkDir(ghostList1, border, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), ghostList1[i].Direction))//ghostList1[i].CheckDown(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
                         {
                             ghostList1[i].MoveDown();
                             if (ghostList1[i].GetPosX() == pacman.GetPosX() && ghostList1[i].GetPosY() == pacman.GetPosY())
                             {
                                 pacman.LoseLife();
-                                MovePlayer("reset");
+                                MovePlayer(RESET);
                             }
                         }
                         break;
@@ -343,7 +349,7 @@ namespace Pacman
                 box++;
                 border = map.GetMap;
                 RedrawMap();
-                MovePlayer("reset");
+                MovePlayer(RESET);
                 pacman.addLevel();
                 if (pacman.GetLevel() == 5)
                 {
@@ -418,7 +424,9 @@ namespace Pacman
         static void addGhost()
         {
             Array.Resize(ref ghostList1, ghostList1.Length + 1);
-            ghostList1[ghostList1.Length - 1] = new Ghost(ConsoleColor.Blue, 15, 11);
+
+            ghostList1[ghostList1.Length - 1] = new Ghost(getRandomConsoleColor(), Ghost.ghostSpanX[ghostPosIndex], Ghost.ghostSpanY[ghostPosIndex]);
+            ghostPosIndex++;
         }
         static void GameOver()
         {

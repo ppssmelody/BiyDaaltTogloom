@@ -15,11 +15,12 @@ namespace Pacman
         private int level;// Uy 
         private int respawnTime = 600;
         private int firstX = 17, firstY = 20;
+        private const string UP = "up", DOWN = "down",RIGHT="right",LEFT="left";
         private const int EMOJINUMBER = 9786;
         private const string WALL="#", DOT=".", STAR="*";
         private string durs = null; //Pacmanii console deer durslegdeh helber
         private ConsoleColor color = ConsoleColor.Yellow;//Pacmanii console deer haragdah ongo
-        private string anhniizug = "right";
+        private const string ANHNIIZUG = "right";
         public string Direction = null;//Pacmanii odoo hodolj bui zug
         public string NextDirection = null;//Pacmanii daraagiin hodloh zug
         public PacMan()
@@ -29,8 +30,8 @@ namespace Pacman
             this.score = 0;// Anhnii onoo
             this.lives = 3;// Anhnii ami
             this.level = 1;// Anhnii level (uy)
-            this.Direction = anhniizug;
-            this.NextDirection = anhniizug;
+            this.Direction = ANHNIIZUG;
+            this.NextDirection = ANHNIIZUG;
         }
         public int GetScore()//Onoo butsaah get funkts
         {
@@ -52,8 +53,8 @@ namespace Pacman
         {
             this.pacmanPos.X = firstX;
             this.pacmanPos.Y = firstY;
-            this.Direction = anhniizug;
-            this.NextDirection = anhniizug;
+            this.Direction = ANHNIIZUG;
+            this.NextDirection = ANHNIIZUG;
         }
 
         public void LoseLife()//Sunsend iduulehed ami hasagdah funkts
@@ -153,7 +154,7 @@ namespace Pacman
         {
             switch (direction)// Pacmanii tuhain ywj bui chiglel
             {
-                case "up":// deesh ywj baih uyd
+                case UP:// deesh ywj baih uyd
                     switch (border[this.pacmanPos.Y - 1, this.pacmanPos.X])// ug chigleld yu baigaag
                     {
                         case WALL:
@@ -172,7 +173,7 @@ namespace Pacman
                                 return MapElements.Empty;
                             }
                     }
-                case "right":
+                case RIGHT:
                     switch (border[this.pacmanPos.Y, this.pacmanPos.X + 1])
                     {
                         case WALL:
@@ -191,7 +192,7 @@ namespace Pacman
                                 return MapElements.Empty;
                             }
                     }
-                case "down":
+                case DOWN:
                     switch (border[this.pacmanPos.Y + 1, this.pacmanPos.X])
                     {
                         case WALL:
@@ -210,7 +211,7 @@ namespace Pacman
                                 return MapElements.Empty;
                             }
                     }
-                case "left":
+                case LEFT:
                     switch (border[this.pacmanPos.Y, this.pacmanPos.X - 1])
                     {
                         case WALL:
