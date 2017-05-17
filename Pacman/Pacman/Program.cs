@@ -73,12 +73,12 @@ namespace Pacman
                 Thread.Sleep(speed);// hurdiig taaruulj ogson thread
             }
         }
-        static void LoadPlayer()// toglogchiin bairshil ongo durs zergiig unshij dursleh funkts
+        /*static void LoadPlayer()// toglogchiin bairshil ongo durs zergiig unshij dursleh funkts
         {
             Console.SetCursorPosition(pacman.GetPosX(), pacman.GetPosY());
             Console.ForegroundColor = pacman.GetColor();
             Console.Write(pacman.GetPac());
-        }
+        }*/
         static void LoadGUI()
         {
             Console.ForegroundColor = ConsoleColor.Green;// level gej talbariin baruun deed buland bichigdsen level geh txt-n ongo
@@ -103,7 +103,7 @@ namespace Pacman
             Console.SetCursorPosition(40, GAMEHEIGHT - 5);
             Console.Write("{0}", new string('-', 22));
         }
-        static void Loadghosts()
+      /*  static void Loadghosts()
         {
             foreach (var ghost in ghostList1)// gholstlist1 dotorh ghost huwisagch burt doorh uildluudiig hiine gsn operator
             {
@@ -113,7 +113,7 @@ namespace Pacman
             }
 
         }
-        static void ghostOmnohPosition(Ghost ghost)
+      /*  static void ghostOmnohPosition(Ghost ghost)
         {
             Console.SetCursorPosition(ghost.omnohPosX, ghost.omnohPosY);
         }
@@ -146,7 +146,7 @@ namespace Pacman
             }
 
         }
-        static void ReadUserKey()
+       /* static void ReadUserKey()
         {
             if (Console.KeyAvailable)
             {
@@ -279,7 +279,7 @@ namespace Pacman
                     PManNewPos(0, 0);
                     break;
             }
-        }
+        }*/
         static void ghostAi()
         {
             for (int i = 0; i < ghostList1.Length; i++)

@@ -8,7 +8,7 @@ namespace Pacman
 {
     public class Map
     {
-        string[,] map =
+        public static string[,] map =
 
             {
 
@@ -42,21 +42,5 @@ namespace Pacman
                     {"#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#"}
 
             };
-
-        public string[,] GetMap
-        {
-            get { return map; }
-        }
-
-    }
-
-    public enum MapElements
-    {
-        Wall,
-        Dot,
-        Star,
-        Empty,
-        Pacman,
-        Ghost
     }
 }

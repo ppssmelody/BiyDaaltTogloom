@@ -9,6 +9,7 @@ namespace Pacman
     class Ghost
     {
         //69 //28
+        Random random = new Random();
         private Position ghostPos;
         public int omnohPosX;
         public int omnohPosY;
@@ -17,6 +18,7 @@ namespace Pacman
         private ConsoleColor color;
         private const string WALL = "#";
         public string Direction = null;
+        private const string UP = "up", DOWN = "down", RIGHT = "right", LEFT = "left";
         public static int[] ghostSpanX = new int[10] {15,16,17,13,15,16,17,18,15,16,};
         public static int[] ghostSpanY = new int[10] { 14,13,12,11,12,11,13,10,9,10,};
         public static string[] zug =
@@ -34,15 +36,74 @@ namespace Pacman
             this.omnohPosX = x;
             this.omnohPosY = y;
         }
+
+        public void move()
+        {
+            if (random.Next(0, 2) != 0)
+            {
+               Direction = zug[random.Next(0, Ghost.zug.Length)];
+            }
+         
+                switch (Direction)
+                {
+                    case LEFT:
+                        if (checkDir(ghostList1, border, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), ghostList1[i].Direction))//ghostList1[i].CheckLeft(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
+                        {
+                            ghostList1[i].MoveLeft();
+                            if (ghostList1[i].GetPosX() == pacman.GetPosX() && ghostList1[i].GetPosY() == pacman.GetPosY())
+                            {
+                                pacman.LoseLife();
+                                MovePlayer(RESET);
+                            }
+                        }
+                        break;
+                    case RIGHT:
+                        if (ghostList1[i].checkDir(ghostList1, border, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), ghostList1[i].Direction))//CheckRight(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
+                        {
+                            ghostList1[i].MoveRight();
+                            if (ghostList1[i].GetPosX() == pacman.GetPosX() && ghostList1[i].GetPosY() == pacman.GetPosY())
+                            {
+                                pacman.LoseLife();
+                                MovePlayer(RESET);
+                            }
+                        }
+                        break;
+                    case UP:
+                        if (ghostList1[i].checkDir(ghostList1, border, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), ghostList1[i].Direction))//.CheckUp(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
+                        {
+                            ghostList1[i].MoveUp();
+                            if (ghostList1[i].GetPosX() == pacman.GetPosX() && ghostList1[i].GetPosY() == pacman.GetPosY())
+                            {
+                                pacman.LoseLife();
+                                MovePlayer(RESET);
+                            }
+                        }
+                        break;
+                    case DOWN:
+                        if (ghostList1[i].checkDir(ghostList1, border, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), ghostList1[i].Direction))//ghostList1[i].CheckDown(ghostList1, ghostList1[i].GetPosX(), ghostList1[i].GetPosY(), border))
+                        {
+                            ghostList1[i].MoveDown();
+                            if (ghostList1[i].GetPosX() == pacman.GetPosX() && ghostList1[i].GetPosY() == pacman.GetPosY())
+                            {
+                                pacman.LoseLife();
+                                MovePlayer(RESET);
+                            }
+                        }
+                        break;
+
+                }
+            
+            Moveghost();
+        }
         public bool checkDir(Ghost[] ghostList, string[,] border, int x, int y,string direction)
         {
             bool isEmpty = true;
             switch (direction)
             {
-                case "left": isEmpty = CheckLeft(ghostList, x, y, border); break;
-                case "right": isEmpty = CheckRight(ghostList, x, y, border); break;
-                case "down": isEmpty = CheckDown(ghostList, x, y, border); break;
-                case "up": isEmpty = CheckUp(ghostList, x, y, border); break;
+                case LEFT: isEmpty = CheckLeft(ghostList, x, y, border); break;
+                case RIGHT: isEmpty = CheckRight(ghostList, x, y, border); break;
+                case DOWN: isEmpty = CheckDown(ghostList, x, y, border); break;
+                case UP: isEmpty = CheckUp(ghostList, x, y, border); break;
                 
             }
             return isEmpty;
@@ -102,7 +163,7 @@ namespace Pacman
                 if (x == ghost.GetPosX() && y - 1 == ghost.GetPosY())
                 {
                     isEmpty = false;
-                foreach     break;
+                    break;
                 }
             }
 

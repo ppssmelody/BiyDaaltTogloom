@@ -8,7 +8,7 @@ namespace Pacman
 {
     class MapElements
     {
-        private const string WALL = "#", STAR = "*", DOT = ".", GHOST = ((char)9787).ToString();
+        private const string WALL = "#", STAR = "*", DOT = ".", GHOST = ((char)9787).ToString(), PACMAN =((char) 9786).ToString(),EMPTY=" ";
         public string getWall
         {
             get {return WALL;}
@@ -24,6 +24,14 @@ namespace Pacman
         public string getGhost
         {
             get { return GHOST; }
+        }
+        public string getPacman
+        {
+            get { return PACMAN;}
+        }
+        public string getEmpty
+        {
+            get { return EMPTY; }
         }
     }
 }

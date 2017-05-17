@@ -10,14 +10,17 @@ namespace Pacman
 {
     class PacMan
     {   private Position pacmanPos;
+        public KeyBoard key = new KeyBoard();
+        private Display dis = new Display();
+        private MapElements MElements = new MapElements();
+        private Ghost[] ghostlist;
         private int score;//Onoo 
         private int lives;// Ami
         private int level;// Uy 
         private int respawnTime = 600;
         private int firstX = 17, firstY = 20;
         private const string UP = "up", DOWN = "down",RIGHT="right",LEFT="left";
-        private const int EMOJINUMBER = 9786;
-        private const string WALL="#", DOT=".", STAR="*";
+        private const string WALL="#", DOT=".", STAR="*",EMPTY=" ";
         private string durs = null; //Pacmanii console deer durslegdeh helber
         private ConsoleColor color = ConsoleColor.Yellow;//Pacmanii console deer haragdah ongo
         private const string ANHNIIZUG = "right";
@@ -25,13 +28,134 @@ namespace Pacman
         public string NextDirection = null;//Pacmanii daraagiin hodloh zug
         public PacMan()
         {
-            this.durs=((char)EMOJINUMBER).ToString();
+            this.durs=MElements.getPacman;
             this.pacmanPos = new Position(firstX, firstY);
             this.score = 0;// Anhnii onoo
             this.lives = 3;// Anhnii ami
             this.level = 1;// Anhnii level (uy)
             this.Direction = ANHNIIZUG;
             this.NextDirection = ANHNIIZUG;
+        }
+        public PacMan(string pac,int onoo,int uy,int ami,string firstdirection,int x,int y)
+        {
+            this.durs = pac;
+            this.score = onoo; this.lives = ami; this.level = uy;
+            this.Direction = firstdirection; this.NextDirection = firstdirection;
+            this.pacmanPos = new Position(x, y);
+        }
+        public void move()
+        {
+            key.ReadUserKey();
+            switch (key.keyInfo)
+            {
+                case UP:
+                    if (CheckCell(Map.map, NextDirection, ghostlist) == WALL)
+                    {
+                        dis.drawPacman(pacmanPos.X, pacmanPos.Y, durs, color);
+                    }
+                    else if (CheckCell(Map.map, NextDirection, ghostlist) == MElements.getStar 
+                        || CheckCell(Map.map, NextDirection, ghostlist) == MElements.getDot || CheckCell(Map.map, NextDirection, ghostlist) == MElements.getEmpty)
+                    {
+                        if (CheckCell(Map.map, NextDirection, ghostlist) == MElements.getStar)
+                        {
+                            EarnStar(); 
+                        }
+                        if (CheckCell(Map.map, NextDirection, ghostlist) == MElements.getDot)
+                        {
+                            EarnPoint();
+                        }
+                        dis.PManTrace(pacmanPos.X, pacmanPos.Y);
+                        dis.drawPacman(pacmanPos.X, pacmanPos.Y - 1, durs, color);
+                    }
+                    else if (CheckCell(Map.map, NextDirection, ghostlist) == MElements.getGhost)
+                    {
+                        LoseLife();
+                        dis.drawPacman(firstX, firstY, durs, color);
+                    }
+                    break;
+
+                case DOWN:
+                    if (CheckCell(Map.map, NextDirection, ghostlist) == WALL)
+                    {
+                        dis.drawPacman(pacmanPos.X, pacmanPos.Y, durs, color);
+                    }
+                    else if (CheckCell(Map.map, NextDirection, ghostlist) == MElements.getStar
+                        || CheckCell(Map.map, NextDirection, ghostlist) == MElements.getDot || CheckCell(Map.map, NextDirection, ghostlist) == MElements.getEmpty)
+                    {
+                        if (CheckCell(Map.map, NextDirection, ghostlist) == MElements.getStar)
+                        {
+                            EarnStar();
+                        }
+                        if (CheckCell(Map.map, NextDirection, ghostlist) == MElements.getDot)
+                        {
+                            EarnPoint();
+                        }
+                        dis.PManTrace(pacmanPos.X, pacmanPos.Y);
+                        dis.drawPacman(pacmanPos.X, pacmanPos.Y + 1, durs, color);
+                    }
+                    else if (CheckCell(Map.map, NextDirection, ghostlist) == MElements.getGhost)
+                    {
+                        LoseLife();
+                        dis.drawPacman(firstX, firstY, durs, color);
+                    }
+                  
+                    break;
+
+                case RIGHT:
+                    if (CheckCell(Map.map, NextDirection, ghostlist) == WALL)
+                    {
+                        dis.drawPacman(pacmanPos.X, pacmanPos.Y, durs, color);
+                    }
+                    else if (CheckCell(Map.map, NextDirection, ghostlist) == MElements.getStar
+                        || CheckCell(Map.map, NextDirection, ghostlist) == MElements.getDot || CheckCell(Map.map, NextDirection, ghostlist) == MElements.getEmpty)
+                    {
+                        if (CheckCell(Map.map, NextDirection, ghostlist) == MElements.getStar)
+                        {
+                            EarnStar();
+                        }
+                        if (CheckCell(Map.map, NextDirection, ghostlist) == MElements.getDot)
+                        {
+                            EarnPoint();
+                        }
+                        dis.PManTrace(pacmanPos.X, pacmanPos.Y);
+                        dis.drawPacman(pacmanPos.X + 1, pacmanPos.Y, durs, color);
+                    }
+                    else if (CheckCell(Map.map, NextDirection, ghostlist) == MElements.getGhost)
+                    {
+                        LoseLife();
+                        dis.drawPacman(firstX, firstY, durs, color);
+                    }
+                  
+                    break;
+
+                case LEFT:
+                    if (CheckCell(Map.map, NextDirection, ghostlist) == WALL)
+                    {
+                        dis.drawPacman(pacmanPos.X, pacmanPos.Y, durs, color);
+                    }
+                    else if (CheckCell(Map.map, NextDirection, ghostlist) == MElements.getStar
+                        || CheckCell(Map.map, NextDirection, ghostlist) == MElements.getDot || CheckCell(Map.map, NextDirection, ghostlist) == MElements.getEmpty)
+                    {
+                        if (CheckCell(Map.map, NextDirection, ghostlist) == MElements.getStar)
+                        {
+                            EarnStar();
+                        }
+                        if (CheckCell(Map.map, NextDirection, ghostlist) == MElements.getDot)
+                        {
+                            EarnPoint();
+                        }
+                        dis.PManTrace(pacmanPos.X, pacmanPos.Y);
+                        dis.drawPacman(pacmanPos.X - 1, pacmanPos.Y, durs, color);
+                    }
+                    else if (CheckCell(Map.map, NextDirection, ghostlist) == MElements.getGhost)
+                    {
+                        LoseLife();
+                        dis.drawPacman(firstX, firstY, durs, color);
+                    }
+                  
+                    
+                    break;
+            }
         }
         public int GetScore()//Onoo butsaah get funkts
         {
@@ -106,51 +230,8 @@ namespace Pacman
             return false;
 
         }
-        private bool upGhostmet(Ghost[] ghostList)
-        {
-            if (checkIfGhostAppears(ghostList, this.pacmanPos.Y -1, this.pacmanPos.X))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        private bool downGhostmet(Ghost[] ghostList)
-        {
-            if (checkIfGhostAppears(ghostList, this.pacmanPos.Y + 1, this.pacmanPos.X))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        private bool rightGhostmet(Ghost[] ghostList)
-        {
-            if (checkIfGhostAppears(ghostList, this.pacmanPos.Y , this.pacmanPos.X + 1))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        private bool leftGhostmet(Ghost[] ghostList)
-        {
-            if (checkIfGhostAppears(ghostList, this.pacmanPos.Y, this.pacmanPos.X - 1))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        public MapElements CheckCell(string[,] border, string direction, Ghost[] ghostList)//xodolj bui zug deh daraagiin 1 nudend hana od tseg suns zereg baigaa esehiig shalgah funkts
+  
+        public string CheckCell(string[,] border, string direction, Ghost[] ghostList)//xodolj bui zug deh daraagiin 1 nudend hana od tseg suns zereg baigaa esehiig shalgah funkts
         {
             switch (direction)// Pacmanii tuhain ywj bui chiglel
             {
@@ -158,89 +239,90 @@ namespace Pacman
                     switch (border[this.pacmanPos.Y - 1, this.pacmanPos.X])// ug chigleld yu baigaag
                     {
                         case WALL:
-                            return MapElements.Wall;
+                            return MElements.getWall;
                         case DOT:
-                            return MapElements.Dot;
+                            return MElements.getDot;
                         case STAR:
-                            return MapElements.Star;
+                            return MElements.getStar;
                         default:
-                            if (upGhostmet(ghostList))
+                            if (checkIfGhostAppears(ghostList, this.pacmanPos.X, this.pacmanPos.Y-1))
                             {
-                                return MapElements.Ghost;
+                                return MElements.getGhost;
                             }
                             else
                             {
-                                return MapElements.Empty;
+                                return MElements.getEmpty;
                             }
                     }
                 case RIGHT:
                     switch (border[this.pacmanPos.Y, this.pacmanPos.X + 1])
                     {
                         case WALL:
-                            return MapElements.Wall;
+                            return MElements.getWall;
                         case DOT:
-                            return MapElements.Dot;
+                            return MElements.getDot;
                         case STAR:
-                            return MapElements.Star;
+                            return MElements.getStar;
                         default:
-                            if (rightGhostmet(ghostList))                           
+                            if (checkIfGhostAppears(ghostList, pacmanPos.X+1, pacmanPos.Y))                           
                             {
-                                return MapElements.Ghost;
+                                return MElements.getGhost;
                             }
                             else
                             {
-                                return MapElements.Empty;
+                                return MElements.getEmpty;
                             }
                     }
                 case DOWN:
                     switch (border[this.pacmanPos.Y + 1, this.pacmanPos.X])
                     {
                         case WALL:
-                            return MapElements.Wall;
+                            return MElements.getWall;
                         case DOT:
-                            return MapElements.Dot;
+                            return MElements.getDot;
                         case STAR:
-                            return MapElements.Star;
+                            return MElements.getStar;
                         default:
-                            if (downGhostmet(ghostList))
+                            if (checkIfGhostAppears(ghostList, pacmanPos.X, pacmanPos.Y+1))
                             {
-                                return MapElements.Ghost;
+                                return MElements.getGhost;
                             }
                             else
                             {
-                                return MapElements.Empty;
+                                return MElements.getEmpty;
                             }
                     }
                 case LEFT:
                     switch (border[this.pacmanPos.Y, this.pacmanPos.X - 1])
                     {
                         case WALL:
-                            return MapElements.Wall;
+                            return MElements.getWall;
                         case DOT:
-                            return MapElements.Dot;
+                            return MElements.getDot;
                         case STAR:
-                            return MapElements.Star;
+                            return MElements.getStar;
                         default:
-                            if (leftGhostmet(ghostList))
+                            if (checkIfGhostAppears(ghostList, pacmanPos.X-1, pacmanPos.Y))
                             {
-                                return MapElements.Ghost;
+                                return MElements.getGhost;
                             }
                             else
                             {
-                                return MapElements.Empty;
+                                return MElements.getEmpty;
                             }
                     }
                 default:
                     if (checkIfGhostAppears(ghostList,pacmanPos.Y, pacmanPos.X))
                     {
-                        return MapElements.Ghost;
+                        return MElements.getGhost;
                     }
                     else
                     {
-                        return MapElements.Empty;
+                        return MElements.getEmpty;
                     }
             }
         }
+        /*
         public void MoveUp()
         {
             this.pacmanPos.Y -= 1;
@@ -256,6 +338,6 @@ namespace Pacman
         public void MoveRight()
         {
             this.pacmanPos.X += 1;
-        }
+        }*/
     }
 }
